@@ -9,6 +9,7 @@
 #include "Geometry.h"
 #include "Cube.h"
 
+
 //--------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------
@@ -31,6 +32,8 @@ ID3D11Buffer*			g_MatrixBuffer = nullptr;
 InputHandler*			g_InputHandler = nullptr;
 
 int width, height;
+
+
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -82,6 +85,7 @@ void initObjects()
 	// The camera will look toward (0,0,0)  
 	camera->moveTo({ 0, 0, 5 });
 
+
 	// Create objects
 	quad = new Quad_t(g_Device, g_DeviceContext);
 	cube = new Cube(g_Device, g_DeviceContext);
@@ -94,6 +98,10 @@ void initObjects()
 //
 void updateObjects(float dt)
 {
+	camera->deltaX += g_InputHandler->GetMouseDeltaX() * dt;
+	camera->deltaY += g_InputHandler->GetMouseDeltaY() * dt;
+
+
 	// Basic camera control from user inputs
 	if (g_InputHandler->IsKeyPressed(Keys::Up) || g_InputHandler->IsKeyPressed(Keys::W))
 		camera->move({ 0.0f, 0.0f, -camera_vel *dt });
@@ -103,6 +111,8 @@ void updateObjects(float dt)
 		camera->move({ camera_vel *dt, 0.0f, 0.0f });
 	if (g_InputHandler->IsKeyPressed(Keys::Left) || g_InputHandler->IsKeyPressed(Keys::A))
 		camera->move({ -camera_vel *dt, 0.0f, 0.0f });
+
+	
 
 	// Now set/update object transformations
 	// This can be done using any sequence of transformation matrices,
@@ -116,13 +126,15 @@ void updateObjects(float dt)
 			mat4f::scaling(1.5, 1.5, 1.5);					// Scale uniformly to 150%
 
 	Mcube = mat4f::translation(0, 0, -5) *
-		    mat4f::rotation(-angle, 0.0f, 1.0f, 0.0f) *
+		    //mat4f::rotation(-angle, 0.0f, 1.0f, 0.0f) *
 	     	mat4f::scaling(1.5, 1.5, 1.5);
 
 	// Sponza
 	Msponza =	mat4f::translation(0,-5,0) *				// Move down 5 units
 				mat4f::rotation(fPI/2, 0.0f, 1.0f, 0.0f) *	// Rotate 90 degrees
 				mat4f::scaling(0.05);						// The scene is quite large so scale it down to 5%
+
+	
 
 	// Increase the rotation angle. dt is the frame time step.
 	angle += angle_vel * dt;
@@ -455,7 +467,10 @@ HRESULT InitDirect3DAndSwapChain(int width, int height)
 void InitRasterizerState()
 {
 	D3D11_RASTERIZER_DESC rasterizerState;
+	
 	rasterizerState.FillMode = D3D11_FILL_SOLID;
+	//rasterizerState.FillMode = D3D11_FILL_WIREFRAME;
+
 	rasterizerState.CullMode = D3D11_CULL_BACK;
 	rasterizerState.FrontCounterClockwise = true;
 	rasterizerState.DepthBias = false;
