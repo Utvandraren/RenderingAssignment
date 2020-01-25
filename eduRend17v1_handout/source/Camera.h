@@ -16,8 +16,8 @@ using namespace linalg;
 class camera_t
 {
 public:
-	float deltaX;
-	float deltaY;
+	float X;
+	float Y;
 	float vfov, aspect;	// Aperture attributes
 	float zNear, zFar;	// Clip planes
 						// zNear should be >0
@@ -57,11 +57,15 @@ public:
 		// World-to-View then is the inverse of T*R;
 		//	inverse(T(p)*R) = inverse(R)*inverse(T(p)) = transpose(R)*T(-p)
 		// Since now there is no rotation, this matrix is simply T(-p)
-		
-		return mat4f::translation(-position) * mat4f::rotation(0, deltaX * 4, deltaY * 4);
+
+		 
+
+		mat4f rotation = mat4f::rotation(0, X * 4, Y * 4);
+		mat4f translation = mat4f::translation(-position);
+		rotation.transpose();
+		return (translation * rotation);
 	}
 
-	
 
 	// Matrix transforming from View space to Clip space
 	// In a performance sensitive situation this matrix can be precomputed, as long as

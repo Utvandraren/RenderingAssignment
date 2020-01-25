@@ -10,81 +10,89 @@ Cube::Cube(ID3D11Device* dxdevice,
      //Populate the vertex array with ? vertices
 	vertex_t v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23;
 
+	vec3f out = { 0,0,1 };
+	vec3f in = { 0,0,-1 };
 	//Z-Normalen
-	v0.Pos = { -0.5, -0.5f, 0.0f }; 
-	v0.Normal = { 0, 0, 1 };
+	v0.Pos = { -0.5, -0.5f, 0.5f };
+	v0.Normal = out;
 
-	v1.Pos = { 0.5, -0.5f, 0.0f };   
-	v1.Normal = { 0, 0, 1 };
+	v1.Pos = { 0.5, -0.5f, 0.5f };
+	v1.Normal = out;
 
-	v2.Pos = { 0.5, 0.5f, 0.0f };   
-	v2.Normal = { 0, 0, 1 };
+	v2.Pos = { 0.5, 0.5f, 0.5f };
+	v2.Normal = out;
 
-	v3.Pos = { -0.5, 0.5f, 0.0f };   
-	v3.Normal = { 0, 0, 1 };
+	v3.Pos = { -0.5, 0.5f, 0.5f };
+	v3.Normal = out;
 
-	v4.Pos = { -0.5, -0.5f, -1 };  
-	v4.Normal = { 0, 0, -1 };
+	v4.Pos = { -0.5, -0.5f, -0.5f };
+	v4.Normal = in;
 
-	v5.Pos = { 0.5, -0.5f, -1 };  
-	v5.Normal = { 0, 0, -1 };
+	v5.Pos = { 0.5, -0.5f, -0.5f };
+	v5.Normal = in;
 
-	v6.Pos = { 0.5, 0.5f, -1 };  
-	v6.Normal = { 0, 0, -1 };
+	v6.Pos = { 0.5, 0.5f, -0.5f };
+	v6.Normal = in;
 
-	v7.Pos = { -0.5, 0.5f, -1 };  
-	v7.Normal = { 0, 0, -1 };
+	v7.Pos = { -0.5, 0.5f, -0.5f };
+	v7.Normal = in;
 
 
 	//Y-Normalen
-	v8.Pos = { -0.5, -0.5f, 0.0f };
-	v8.Normal = { 0, -1, 0 };
+	vec3f up = { 0, 1, 0 };
+	vec3f down = { 0, 1, 0 };
 
-	v9.Pos = { 0.5, -0.5f, 0.0f };
-	v9.Normal = { 0, -1, 0 };
+	v8.Pos = { -0.5, -0.5f,  0.5f };
+	v8.Normal = down;
 
-	v10.Pos = { 0.5, 0.5f, 0.0f };
-	v10.Normal = { 0, 1, 0 };
+	v9.Pos = { 0.5, -0.5f,  0.5f };
+	v9.Normal = down;
 
-	v11.Pos = { -0.5, 0.5f, 0.0f };
-	v11.Normal = { 0, 1, 0 };
+	v10.Pos = { 0.5, 0.5f,  0.5f };
+	v10.Normal = up;
 
-	v12.Pos = { -0.5, -0.5f, -1 };
-	v12.Normal = { 0, -1, 0 };
+	v11.Pos = { -0.5, 0.5f,  0.5f };
+	v11.Normal = up;
 
-	v13.Pos = { 0.5, -0.5f, -1 };
-	v13.Normal = { 0, -1, 0 };
+	v12.Pos = { -0.5, -0.5f, -0.5f };
+	v12.Normal = down;
 
-	v14.Pos = { 0.5, 0.5f, -1 };
-	v14.Normal = { 0, 1, 0 };
+	v13.Pos = { 0.5, -0.5f, -0.5f };
+	v13.Normal = down;
 
-	v15.Pos = { -0.5, 0.5f, -1 };
-	v15.Normal = { 0, 1, 0 };
+	v14.Pos = { 0.5, 0.5f, -0.5f };
+	v14.Normal = up;
+
+	v15.Pos = { -0.5, 0.5f, -0.5f };
+	v15.Normal = up;
 
 	//X-Normalen
-	v16.Pos = { -0.5, -0.5f, 0.0f };
-	v16.Normal = { -1, 0, 0 };
+	vec3f left = { -1, 0, 0 };
+	vec3f right = { 1, 0, 0 };
 
-	v17.Pos = { 0.5, -0.5f, 0.0f };
-	v17.Normal = { 1, 0, 0 };
+	v16.Pos = { -0.5, -0.5f,  0.5f };
+	v16.Normal = left;
 
-	v18.Pos = { 0.5, 0.5f, 0.0f };
-	v18.Normal = { -1, 0, 0 };
+	v17.Pos = { 0.5, -0.5f,  0.5f };
+	v17.Normal = right;
 
-	v19.Pos = { -0.5, 0.5f, 0.0f };
-	v19.Normal = { 1, 0, 0 };
+	v18.Pos = { 0.5, 0.5f,  0.5f };
+	v18.Normal = left;
 
-	v20.Pos = { -0.5, -0.5f, -1 };
-	v20.Normal = { -1, 0, 0 };
+	v19.Pos = { -0.5, 0.5f,  0.5f };
+	v19.Normal = right;
 
-	v21.Pos = { 0.5, -0.5f, -1 };
-	v21.Normal = { 1, 0, 0 };
+	v20.Pos = { -0.5, -0.5f, -0.5f };
+	v20.Normal = left;
 
-	v22.Pos = { 0.5, 0.5f, -1 };
-	v22.Normal = { -1, 0, 0 };
+	v21.Pos = { 0.5, -0.5f, -0.5f };
+	v21.Normal = right;
 
-	v23.Pos = { -0.5, 0.5f, -1 };
-	v23.Normal = { 1, 0, 0 };
+	v22.Pos = { 0.5, 0.5f, -0.5f };
+	v22.Normal = left;
+
+	v23.Pos = { -0.5, 0.5f, -0.5f };
+	v23.Normal = right;
 
 	vertices.push_back(v0);
 	vertices.push_back(v1);

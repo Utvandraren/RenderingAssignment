@@ -63,6 +63,9 @@ OBJModel_t* sponza;
 mat4f Msponza;
 mat4f Mquad;
 mat4f Mcube;
+mat4f Mcube1;
+mat4f Mcube2;
+
 float angle = 0;			// A per-frame updated rotation angle (radians)...
 float angle_vel = fPI / 2;	// ...and its velocity
 // World-to-view matrix
@@ -98,8 +101,6 @@ void initObjects()
 //
 void updateObjects(float dt)
 {
-	camera->deltaX += g_InputHandler->GetMouseDeltaX() * dt;
-	camera->deltaY += g_InputHandler->GetMouseDeltaY() * dt;
 
 
 	// Basic camera control from user inputs
@@ -111,8 +112,15 @@ void updateObjects(float dt)
 		camera->move({ camera_vel *dt, 0.0f, 0.0f });
 	if (g_InputHandler->IsKeyPressed(Keys::Left) || g_InputHandler->IsKeyPressed(Keys::A))
 		camera->move({ -camera_vel *dt, 0.0f, 0.0f });
+	if (g_InputHandler->IsKeyPressed(Keys::Q))
+		camera->move({ 0.0f, -camera_vel * dt, 0.0f });
+	if (g_InputHandler->IsKeyPressed(Keys::E))
+		camera->move({ 0.0f, camera_vel * dt, 0.0f });
+
 
 	
+	camera->X += g_InputHandler->GetMouseDeltaX() * dt;
+	camera->Y += g_InputHandler->GetMouseDeltaY() * dt;
 
 	// Now set/update object transformations
 	// This can be done using any sequence of transformation matrices,
@@ -130,11 +138,22 @@ void updateObjects(float dt)
 	     	mat4f::scaling(1.5, 1.5, 1.5);
 
 	// Sponza
-	Msponza =	mat4f::translation(0,-5,0) *				// Move down 5 units
-				mat4f::rotation(fPI/2, 0.0f, 1.0f, 0.0f) *	// Rotate 90 degrees
-				mat4f::scaling(0.05);						// The scene is quite large so scale it down to 5%
+	Msponza = mat4f::translation(0,-5,0) *				    // Move down 5 units
+			  mat4f::rotation(fPI/2, 0.0f, 1.0f, 0.0f) *	// Rotate 90 degrees
+			  mat4f::scaling(0.05);						    // The scene is quite large so scale it down to 5%
+
+	Mcube1 = mat4f::translation(0, 0, -5) *
+		     //mat4f::rotation(-angle, 0.0f, 1.0f, 0.0f) *
+		     mat4f::scaling(3, 3, 3);
 
 	
+	Mcube2 = mat4f::translation(0, 0, 0) *
+		     //mat4f::rotation(-angle, 0.0f, 1.0f, 0.0f) *
+		     mat4f::scaling(0.5f, 0.5f, 0.5f);
+	
+	Mcube1 = Mcube * Mcube1;
+	Mcube2 = Mcube * Mcube1 * Mcube2;
+
 
 	// Increase the rotation angle. dt is the frame time step.
 	angle += angle_vel * dt;
@@ -155,6 +174,13 @@ void renderObjects()
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube, Mview, Mproj);
 	cube->render();
+
+	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube1, Mview, Mproj);
+	cube->render();
+
+	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube2, Mview, Mproj);
+	cube->render();
+
 
 	// Load matrices + Sponza's transformation to the device and render it
 	sponza->MapMatrixBuffers(g_MatrixBuffer, Msponza, Mview, Mproj);
