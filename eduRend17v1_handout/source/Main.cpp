@@ -101,6 +101,11 @@ void initObjects()
 //
 void updateObjects(float dt)
 {
+	camera->Y += g_InputHandler->GetMouseDeltaY() * dt;
+	camera->X += g_InputHandler->GetMouseDeltaX() * dt;
+
+
+	vec3f testViewWorld = camera->get_ViewToWorldMatrix().column(2).xyz();
 
 
 	// Basic camera control from user inputs
@@ -117,10 +122,7 @@ void updateObjects(float dt)
 	if (g_InputHandler->IsKeyPressed(Keys::E))
 		camera->move({ 0.0f, camera_vel * dt, 0.0f });
 
-
 	
-	camera->X += g_InputHandler->GetMouseDeltaX() * dt;
-	camera->Y += g_InputHandler->GetMouseDeltaY() * dt;
 
 	// Now set/update object transformations
 	// This can be done using any sequence of transformation matrices,

@@ -40,7 +40,7 @@ Cube::Cube(ID3D11Device* dxdevice,
 
 	//Y-Normalen
 	vec3f up = { 0, 1, 0 };
-	vec3f down = { 0, 1, 0 };
+	vec3f down = { 0, -1, 0 };
 
 	v8.Pos = { -0.5, -0.5f,  0.5f };
 	v8.Normal = down;
@@ -77,10 +77,10 @@ Cube::Cube(ID3D11Device* dxdevice,
 	v17.Normal = right;
 
 	v18.Pos = { 0.5, 0.5f,  0.5f };
-	v18.Normal = left;
+	v18.Normal = right;
 
 	v19.Pos = { -0.5, 0.5f,  0.5f };
-	v19.Normal = right;
+	v19.Normal = left;
 
 	v20.Pos = { -0.5, -0.5f, -0.5f };
 	v20.Normal = left;
@@ -89,10 +89,10 @@ Cube::Cube(ID3D11Device* dxdevice,
 	v21.Normal = right;
 
 	v22.Pos = { 0.5, 0.5f, -0.5f };
-	v22.Normal = left;
+	v22.Normal = right;
 
 	v23.Pos = { -0.5, 0.5f, -0.5f };
-	v23.Normal = right;
+	v23.Normal = left;
 
 	vertices.push_back(v0);
 	vertices.push_back(v1);
@@ -119,66 +119,61 @@ Cube::Cube(ID3D11Device* dxdevice,
 	vertices.push_back(v22);
 	vertices.push_back(v23);
 
-
+	//FIxa till alla normaler använder alla siffor
 	// Populate the index array with triangles
-    // Triangle #1
+    // Triangle #1 Fron
 	indices.push_back(0);
 	indices.push_back(1);
 	indices.push_back(3);
-	// Triangle #2
+	// Triangle #2 Front
 	indices.push_back(1);
 	indices.push_back(2);
 	indices.push_back(3);
 
-	// Triangle #3
-	indices.push_back(0);
-	indices.push_back(3);
-	indices.push_back(4);
+	// Triangle #3 Right
+	indices.push_back(18);//2
+	indices.push_back(17);//1
+	indices.push_back(21);//5
+	// Triangle #4  Right
+	indices.push_back(18);//2
+	indices.push_back(21);//5
+	indices.push_back(22);//6
 
-	// Triangle #4
-	indices.push_back(7);
-	indices.push_back(4);
-	indices.push_back(3);
+	// Triangle #5 LEft
+	indices.push_back(20);//4
+	indices.push_back(16);//0
+	indices.push_back(19);//3
+	// Triangle #6 Left
+	indices.push_back(19);//3
+	indices.push_back(23);//7
+	indices.push_back(20);//4
 
-	// Triangle #5
-	indices.push_back(2);
-	indices.push_back(1);
-	indices.push_back(5);
+	// Triangle #7 Back
+	indices.push_back(4);//4
+	indices.push_back(7);//7
+	indices.push_back(6);//6
+	// Triangle #8 Back
+	indices.push_back(5);//5
+	indices.push_back(4);//4
+	indices.push_back(6);//6
 
-	// Triangle #6
-	indices.push_back(2);
-	indices.push_back(5);
-	indices.push_back(6);
+	// Triangle #9 Top
+	indices.push_back(3 + 8);//3
+	indices.push_back(6 + 8);//6
+	indices.push_back(7 + 8);//7
+	// Triangle #10 Top
+	indices.push_back(6 + 8);//6	
+	indices.push_back(3 + 8);//3
+	indices.push_back(2 + 8);//2
 
-	// Triangle #7
-	indices.push_back(4);
-	indices.push_back(7);
-	indices.push_back(6);
-
-	// Triangle #8
-	indices.push_back(5);
-	indices.push_back(4);
-	indices.push_back(6);
-
-	// Triangle #9
-	indices.push_back(3);
-	indices.push_back(6);
-	indices.push_back(7);
-
-	// Triangle #10
-	indices.push_back(6);
-	indices.push_back(3);
-	indices.push_back(2);
-
-	// Triangle #11
-	indices.push_back(0);
-	indices.push_back(4);
-	indices.push_back(5);
-
-	// Triangle #12
-	indices.push_back(0);
-	indices.push_back(5);
-	indices.push_back(1);
+	// Triangle #11 Bottom
+	indices.push_back(0 + 8);//0
+	indices.push_back(4 + 8);//4
+	indices.push_back(5 + 8);//5
+	// Triangle #12 Bottom
+	indices.push_back(0 + 8);//0
+	indices.push_back(5 + 8);//5
+	indices.push_back(1 + 8);//1
 
 
 	// Vertex array descriptor
