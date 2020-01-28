@@ -1,8 +1,161 @@
-﻿  Generating code
-  11 of 2116 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+﻿  Cube.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(16): warning C4005: 'NDEBUG': macro redefinition
+  d:\git2\renderingassignment\edurend17v1_handout\source\cube.cpp: note: see previous definition of 'NDEBUG'
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(48): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(67): warning C4018: '<': signed/unsigned mismatch
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(70): warning C4018: '<': signed/unsigned mismatch
+d:\git2\renderingassignment\edurend17v1_handout\source\cube.cpp(180): warning C4838: conversion from 'float' to 'UINT' requires a narrowing conversion
+d:\git2\renderingassignment\edurend17v1_handout\source\cube.cpp(180): warning C4244: 'initializing': conversion from 'float' to 'UINT', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\cube.cpp(193): warning C4838: conversion from 'float' to 'UINT' requires a narrowing conversion
+d:\git2\renderingassignment\edurend17v1_handout\source\cube.cpp(193): warning C4244: 'initializing': conversion from 'float' to 'UINT', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\vec.h(479): warning C4244: 'argument': conversion from 'double' to 'const T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(57): note: see reference to function template instantiation 'linalg::vec3<float> linalg::normalize<float>(const linalg::vec3<float> &)' being compiled
+  Geometry.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(16): warning C4005: 'NDEBUG': macro redefinition
+  d:\git2\renderingassignment\edurend17v1_handout\source\geometry.cpp: note: see previous definition of 'NDEBUG'
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(48): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(67): warning C4018: '<': signed/unsigned mismatch
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(70): warning C4018: '<': signed/unsigned mismatch
+d:\git2\renderingassignment\edurend17v1_handout\source\geometry.cpp(57): warning C4838: conversion from 'float' to 'UINT' requires a narrowing conversion
+d:\git2\renderingassignment\edurend17v1_handout\source\geometry.cpp(57): warning C4244: 'initializing': conversion from 'float' to 'UINT', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\geometry.cpp(70): warning C4838: conversion from 'float' to 'UINT' requires a narrowing conversion
+d:\git2\renderingassignment\edurend17v1_handout\source\geometry.cpp(70): warning C4244: 'initializing': conversion from 'float' to 'UINT', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\geometry.cpp(137): warning C4838: conversion from 'float' to 'UINT' requires a narrowing conversion
+d:\git2\renderingassignment\edurend17v1_handout\source\geometry.cpp(137): warning C4244: 'initializing': conversion from 'float' to 'UINT', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\geometry.cpp(150): warning C4838: conversion from 'float' to 'UINT' requires a narrowing conversion
+d:\git2\renderingassignment\edurend17v1_handout\source\geometry.cpp(150): warning C4244: 'initializing': conversion from 'float' to 'UINT', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\vec.h(479): warning C4244: 'argument': conversion from 'double' to 'const T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(57): note: see reference to function template instantiation 'linalg::vec3<float> linalg::normalize<float>(const linalg::vec3<float> &)' being compiled
+  InputHandler.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\git2\renderingassignment\edurend17v1_handout\source\inputhandler.cpp(181): warning C4244: 'return': conversion from 'LONG' to 'float', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\inputhandler.cpp(185): warning C4244: 'return': conversion from 'LONG' to 'float', possible loss of data
+  Main.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(16): warning C4005: 'NDEBUG': macro redefinition
+  d:\git2\renderingassignment\edurend17v1_handout\source\main.cpp: note: see previous definition of 'NDEBUG'
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(48): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(67): warning C4018: '<': signed/unsigned mismatch
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(70): warning C4018: '<': signed/unsigned mismatch
+d:\git2\renderingassignment\edurend17v1_handout\source\main.cpp(145): warning C4305: 'argument': truncation from 'double' to 'const T'
+          with
+          [
+              T=float
+          ]
+d:\git2\renderingassignment\edurend17v1_handout\source\main.cpp(213): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
+d:\git2\renderingassignment\edurend17v1_handout\source\main.cpp(214): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
+d:\git2\renderingassignment\edurend17v1_handout\source\main.cpp(215): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
+d:\git2\renderingassignment\edurend17v1_handout\source\main.cpp(694): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\main.cpp(695): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\mat.h(527): warning C4244: 'initializing': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  d:\git2\renderingassignment\edurend17v1_handout\source\vec\mat.h(524): note: while compiling class template member function 'linalg::mat4<float> linalg::mat4<float>::rotation(const T &,const T &,const T &,const T &)'
+          with
+          [
+              T=float
+          ]
+  d:\git2\renderingassignment\edurend17v1_handout\source\main.cpp(134): note: see reference to function template instantiation 'linalg::mat4<float> linalg::mat4<float>::rotation(const T &,const T &,const T &,const T &)' being compiled
+          with
+          [
+              T=float
+          ]
+  d:\git2\renderingassignment\edurend17v1_handout\source\vec\mat.h(666): note: see reference to class template instantiation 'linalg::mat4<float>' being compiled
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\vec.h(479): warning C4244: 'argument': conversion from 'double' to 'const T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(57): note: see reference to function template instantiation 'linalg::vec3<float> linalg::normalize<float>(const linalg::vec3<float> &)' being compiled
+  mesh.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(67): warning C4018: '<': signed/unsigned mismatch
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(70): warning C4018: '<': signed/unsigned mismatch
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(33): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(47): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(56): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(65): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(74): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(78): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(82): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(29): warning C4101: 'str1': unreferenced local variable
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(120): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(126): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(135): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(141): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(153): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(159): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(165): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(171): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(177): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(188): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(194): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(205): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(211): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(222): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(228): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\mesh.cpp(239): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\vec.h(479): warning C4244: 'argument': conversion from 'double' to 'const T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  d:\git2\renderingassignment\edurend17v1_handout\source\mesh.h(57): note: see reference to function template instantiation 'linalg::vec3<float> linalg::normalize<float>(const linalg::vec3<float> &)' being compiled
+  mat.cpp
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(16): warning C4005: 'NDEBUG': macro redefinition
+  d:\git2\renderingassignment\edurend17v1_handout\source\vec\mat.cpp: note: see previous definition of 'NDEBUG'
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(48): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\vec.h(253): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  d:\git2\renderingassignment\edurend17v1_handout\source\vec\vec.h(246): note: while compiling class template member function 'linalg::vec3<float> &linalg::vec3<float>::normalize(void)'
+  d:\git2\renderingassignment\edurend17v1_handout\source\vec\mat.cpp(25): note: see reference to function template instantiation 'linalg::vec3<float> &linalg::vec3<float>::normalize(void)' being compiled
+  d:\git2\renderingassignment\edurend17v1_handout\source\vec\vec.h(531): note: see reference to class template instantiation 'linalg::vec3<float>' being compiled
+  vec.cpp
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(16): warning C4005: 'NDEBUG': macro redefinition
+  d:\git2\renderingassignment\edurend17v1_handout\source\vec\vec.cpp: note: see previous definition of 'NDEBUG'
+d:\git2\renderingassignment\edurend17v1_handout\source\vec\math.h(48): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  Generating code
+  2083 of 2116 functions (98.4%) were compiled, the rest were copied from previous compilation.
+    63 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-DirectXTK.lib(pch.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DirectXTK.lib(pch.obj)' or at 'C:\Users\Lenovo\Documents\GitHub\RenderingAssignment\eduRend17v1_handout\Bin\x86\DirectXTK.pdb'; linking object as if no debug info
-DirectXTK.lib(WICTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DirectXTK.lib(WICTextureLoader.obj)' or at 'C:\Users\Lenovo\Documents\GitHub\RenderingAssignment\eduRend17v1_handout\Bin\x86\DirectXTK.pdb'; linking object as if no debug info
-  Template.vcxproj -> C:\Users\Lenovo\Documents\GitHub\RenderingAssignment\eduRend17v1_handout\source\../Bin/x86/eduRend.exe
+DirectXTK.lib(pch.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DirectXTK.lib(pch.obj)' or at 'D:\git2\RenderingAssignment\eduRend17v1_handout\Bin\x86\DirectXTK.pdb'; linking object as if no debug info
+DirectXTK.lib(WICTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DirectXTK.lib(WICTextureLoader.obj)' or at 'D:\git2\RenderingAssignment\eduRend17v1_handout\Bin\x86\DirectXTK.pdb'; linking object as if no debug info
+  Template.vcxproj -> D:\git2\RenderingAssignment\eduRend17v1_handout\source\../Bin/x86/eduRend.exe
