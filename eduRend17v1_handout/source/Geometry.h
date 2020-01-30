@@ -47,6 +47,14 @@ public:
 		mat4f WorldToViewMatrix,
 		mat4f ProjectionMatrix);
 
+	void MapLightBuffer(
+		ID3D11Buffer* light_buffer,
+		mat4f ObjToWorldMatrix);
+
+	void MapPhongBuffer(
+		ID3D11Buffer* matrix_buffer,
+		vec4f colour);
+
 	//
 	// Abstract render method: must be implemented by derived classes
 	//

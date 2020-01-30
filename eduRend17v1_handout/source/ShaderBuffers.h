@@ -15,4 +15,15 @@ struct MatrixBuffer_t
 	mat4f ProjectionMatrix;
 };
 
+struct PhongBuffer_t
+{
+	vec4f Color;
+};
+
+struct LightBuffer_t 
+{
+	mat4f WorldToVieWMatrix;
+};
+
+
 #endif

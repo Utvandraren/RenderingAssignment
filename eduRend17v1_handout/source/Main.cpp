@@ -29,6 +29,9 @@ ID3D11VertexShader*		g_VertexShader			= nullptr;
 ID3D11PixelShader*		g_PixelShader			= nullptr;
 
 ID3D11Buffer*			g_MatrixBuffer = nullptr;
+ID3D11Buffer*			g_PhongBuffer = nullptr;
+ID3D11Buffer*           g_LightBuffer = nullptr;
+
 InputHandler*			g_InputHandler = nullptr;
 
 int width, height;
@@ -105,7 +108,7 @@ void updateObjects(float dt)
 	camera->X += g_InputHandler->GetMouseDeltaX() * dt;
 
 
-	vec3f testViewWorld = camera->get_ViewToWorldMatrix().column(2).xyz();
+	//vec3f testViewWorld = camera->get_ViewToWorldMatrix().column(2).xyz();
 
 
 	// Basic camera control from user inputs
@@ -132,7 +135,7 @@ void updateObjects(float dt)
 	
 	// Quad
 	Mquad = mat4f::translation(3, 0, 0) *					// No translation
-			mat4f::rotation(-angle, 0.0f, 1.0f, 0.0f) *		// Rotate continuously around the y-axis
+			//mat4f::rotation(-angle, 0.0f, 1.0f, 0.0f) *		// Rotate continuously around the y-axis
 			mat4f::scaling(1.5, 1.5, 1.5);					// Scale uniformly to 150%
 
 	Mcube = mat4f::translation(0, 0, -5) *
@@ -171,21 +174,30 @@ void renderObjects()
 	Mproj = camera->get_ProjectionMatrix();
 
 	// Load matrices + the Quad's transformation to the device and render it
+	vec4f redCol = { 1.0, 0.0, 0.0, 0.0 };
+	vec4f blueCol = { 0.0, 0.0, 1.0, 0.0 };
+
+
 	quad->MapMatrixBuffers(g_MatrixBuffer, Mquad, Mview, Mproj);
+	quad->MapPhongBuffer(g_PhongBuffer, redCol);
 	quad->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube, Mview, Mproj);
+	cube->MapPhongBuffer(g_PhongBuffer, redCol);
 	cube->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube1, Mview, Mproj);
+	cube->MapPhongBuffer(g_PhongBuffer, blueCol);
 	cube->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube2, Mview, Mproj);
+	cube->MapPhongBuffer(g_PhongBuffer, blueCol);
 	cube->render();
 
-
+	
 	// Load matrices + Sponza's transformation to the device and render it
 	sponza->MapMatrixBuffers(g_MatrixBuffer, Msponza, Mview, Mproj);
+	sponza->MapPhongBuffer(g_PhongBuffer, redCol);
 	sponza->render();
 }
 
@@ -527,6 +539,17 @@ void InitShaderBuffers()
 	MatrixBuffer_desc.StructureByteStride = 0;
 
 	ASSERT(hr = g_Device->CreateBuffer(&MatrixBuffer_desc, nullptr, &g_MatrixBuffer));
+
+	//PhongBuffer
+	D3D11_BUFFER_DESC PhongBuffer_desc = { 0 };
+	PhongBuffer_desc.Usage = D3D11_USAGE_DYNAMIC;
+	PhongBuffer_desc.ByteWidth = sizeof(MatrixBuffer_t);
+	PhongBuffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	PhongBuffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	PhongBuffer_desc.MiscFlags = 0;
+	PhongBuffer_desc.StructureByteStride = 0;
+
+	ASSERT(hr = g_Device->CreateBuffer(&PhongBuffer_desc, nullptr, &g_PhongBuffer));
 }
 
 HRESULT CreateRenderTargetView()
@@ -619,6 +642,9 @@ HRESULT Render(float deltaTime)
 	
 	// set matrix buffers
 	g_DeviceContext->VSSetConstantBuffers(0, 1, &g_MatrixBuffer);
+
+	//set Phongbuffer
+	g_DeviceContext->PSSetConstantBuffers(0, 1, &g_PhongBuffer);
 
 	// time to render our objects
 	renderObjects();

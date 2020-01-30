@@ -18,6 +18,30 @@ void Geometry_t::MapMatrixBuffers(
 	dxdevice_context->Unmap(matrix_buffer, 0);
 }
 
+void Geometry_t::MapLightBuffer(
+	ID3D11Buffer* light_buffer,
+	mat4f ObjToWorldMatrix
+	)
+{
+	D3D11_MAPPED_SUBRESOURCE resource;
+	dxdevice_context->Map(light_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+	LightBuffer_t* light_buffer_ = (LightBuffer_t*)resource.pData;
+	light_buffer_->WorldToVieWMatrix = ObjToWorldMatrix;
+	dxdevice_context->Unmap(light_buffer, 0);
+
+}
+
+void Geometry_t::MapPhongBuffer(
+	ID3D11Buffer* phong_buffer,
+	vec4f colour) 
+{
+	D3D11_MAPPED_SUBRESOURCE resource;
+	dxdevice_context->Map(phong_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+	PhongBuffer_t* phong_buffer_ = (PhongBuffer_t*)resource.pData;
+	phong_buffer_->Color = colour;
+	dxdevice_context->Unmap(phong_buffer, 0);
+}
+
 
 Quad_t::Quad_t(
 	ID3D11Device* dxdevice,
