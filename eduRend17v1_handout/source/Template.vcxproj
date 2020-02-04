@@ -204,8 +204,8 @@
     <ClInclude Include="vec\vec.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\assets\shaders\DrawTri.ps" />
-    <None Include="..\assets\shaders\DrawTri.vs" />
+    <None Include="..\assets\shaders\DrawTri.psh" />
+    <None Include="..\assets\shaders\DrawTri.vsh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

@@ -18,16 +18,18 @@ void Geometry_t::MapMatrixBuffers(
 	dxdevice_context->Unmap(matrix_buffer, 0);
 }
 
-void Geometry_t::MapLightBuffer(
-	ID3D11Buffer* light_buffer,
-	mat4f ObjToWorldMatrix
+void Geometry_t::MapLightCameraBuffer(
+	ID3D11Buffer* light_camera_buffer,
+	vec4f lightPosition,
+	vec4f cameraPosition
 	)
 {
 	D3D11_MAPPED_SUBRESOURCE resource;
-	dxdevice_context->Map(light_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
-	LightBuffer_t* light_buffer_ = (LightBuffer_t*)resource.pData;
-	light_buffer_->WorldToVieWMatrix = ObjToWorldMatrix;
-	dxdevice_context->Unmap(light_buffer, 0);
+	dxdevice_context->Map(light_camera_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+	LightCamBuffer_t* light_buffer_ = (LightCamBuffer_t*)resource.pData;
+	light_buffer_->lightPos = lightPosition;
+	light_buffer_->camerPos = cameraPosition;
+	dxdevice_context->Unmap(light_camera_buffer, 0);
 
 }
 

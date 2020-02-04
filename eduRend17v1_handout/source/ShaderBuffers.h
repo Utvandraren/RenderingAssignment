@@ -20,9 +20,12 @@ struct PhongBuffer_t
 	vec4f Color;
 };
 
-struct LightBuffer_t 
+struct LightCamBuffer_t 
 {
-	mat4f WorldToVieWMatrix;
+	vec4f lightPos;
+	vec4f camerPos;
+
+	
 };
 
 

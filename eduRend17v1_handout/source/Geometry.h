@@ -47,9 +47,10 @@ public:
 		mat4f WorldToViewMatrix,
 		mat4f ProjectionMatrix);
 
-	void MapLightBuffer(
+	void MapLightCameraBuffer(
 		ID3D11Buffer* light_buffer,
-		mat4f ObjToWorldMatrix);
+		vec4f lightPosition,
+		vec4f cameraPosition);
 
 	void MapPhongBuffer(
 		ID3D11Buffer* matrix_buffer,

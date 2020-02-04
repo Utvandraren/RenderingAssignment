@@ -176,28 +176,38 @@ void renderObjects()
 	// Load matrices + the Quad's transformation to the device and render it
 	vec4f redCol = { 1.0, 0.0, 0.0, 0.0 };
 	vec4f blueCol = { 0.0, 0.0, 1.0, 0.0 };
+	
+	vec4f cameraPos =  camera->position.xyz0();
+	//vec3f lightPos = (Mview * testVec.xyz0()).xyz();
+	vec4f lightPos = { 5.0,5.0,5.0,1.0 };
+
 
 
 	quad->MapMatrixBuffers(g_MatrixBuffer, Mquad, Mview, Mproj);
 	quad->MapPhongBuffer(g_PhongBuffer, redCol);
+	quad->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	quad->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube, Mview, Mproj);
 	cube->MapPhongBuffer(g_PhongBuffer, redCol);
+	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	cube->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube1, Mview, Mproj);
 	cube->MapPhongBuffer(g_PhongBuffer, blueCol);
+	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	cube->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube2, Mview, Mproj);
 	cube->MapPhongBuffer(g_PhongBuffer, blueCol);
+	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	cube->render();
 
 	
 	// Load matrices + Sponza's transformation to the device and render it
 	sponza->MapMatrixBuffers(g_MatrixBuffer, Msponza, Mview, Mproj);
 	sponza->MapPhongBuffer(g_PhongBuffer, redCol);
+	sponza->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	sponza->render();
 }
 
@@ -405,7 +415,7 @@ HRESULT CreateShadersAndInputLayout()
 
 	printf("\nCompiling vertex shader...\n");
 	ID3DBlob* pVertexShader = nullptr;
-	if(SUCCEEDED(hr = CompileShader("../../assets/shaders/DrawTri.vs", "VS_main", "vs_5_0", nullptr, &pVertexShader)))
+	if(SUCCEEDED(hr = CompileShader("../../assets/shaders/DrawTri.vsh", "VS_main", "vs_5_0", nullptr, &pVertexShader)))
 	{
 		if(SUCCEEDED(hr = g_Device->CreateVertexShader(
 			pVertexShader->GetBufferPointer(),
@@ -438,7 +448,7 @@ HRESULT CreateShadersAndInputLayout()
 
 	printf("\nCompiling pixel shader...\n\n");
 	ID3DBlob* pPixelShader = nullptr;
-	if(SUCCEEDED(hr = CompileShader("../../assets/shaders/DrawTri.ps", "PS_main", "ps_5_0", nullptr, &pPixelShader)))
+	if(SUCCEEDED(hr = CompileShader("../../assets/shaders/DrawTri.psh", "PS_main", "ps_5_0", nullptr, &pPixelShader)))
 	{
 		hr = g_Device->CreatePixelShader(
 			pPixelShader->GetBufferPointer(),
@@ -540,10 +550,22 @@ void InitShaderBuffers()
 
 	ASSERT(hr = g_Device->CreateBuffer(&MatrixBuffer_desc, nullptr, &g_MatrixBuffer));
 
+	
+     //Light Buffer
+	D3D11_BUFFER_DESC LightBuffer_desc = { 0 };
+	LightBuffer_desc.Usage = D3D11_USAGE_DYNAMIC;
+	LightBuffer_desc.ByteWidth = sizeof(LightCamBuffer_t);
+	LightBuffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	LightBuffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	LightBuffer_desc.MiscFlags = 0;
+	LightBuffer_desc.StructureByteStride = 0;
+
+	ASSERT(hr = g_Device->CreateBuffer(&LightBuffer_desc, nullptr, &g_LightBuffer));
+
 	//PhongBuffer
 	D3D11_BUFFER_DESC PhongBuffer_desc = { 0 };
 	PhongBuffer_desc.Usage = D3D11_USAGE_DYNAMIC;
-	PhongBuffer_desc.ByteWidth = sizeof(MatrixBuffer_t);
+	PhongBuffer_desc.ByteWidth = sizeof(PhongBuffer_t);
 	PhongBuffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	PhongBuffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	PhongBuffer_desc.MiscFlags = 0;
@@ -639,13 +661,16 @@ HRESULT Render(float deltaTime)
 	g_DeviceContext->DSSetShader(nullptr, nullptr, 0);
 	g_DeviceContext->GSSetShader(nullptr, nullptr, 0);
 	g_DeviceContext->PSSetShader(g_PixelShader, nullptr, 0);
-	
+
 	// set matrix buffers
 	g_DeviceContext->VSSetConstantBuffers(0, 1, &g_MatrixBuffer);
 
 	//set Phongbuffer
 	g_DeviceContext->PSSetConstantBuffers(0, 1, &g_PhongBuffer);
 
+	//Set lightBuffer
+	g_DeviceContext->PSSetConstantBuffers(1, 1, &g_LightBuffer);
+	
 	// time to render our objects
 	renderObjects();
 

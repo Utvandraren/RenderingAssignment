@@ -65,6 +65,7 @@ public:
 		rotation.transpose();
 		mat4f translation = mat4f::translation(-position);
 		return (rotation * translation);
+		
 	}
 
 	mat4f get_ViewToWorldMatrix() 
