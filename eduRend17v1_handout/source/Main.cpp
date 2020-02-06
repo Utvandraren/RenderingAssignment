@@ -177,9 +177,9 @@ void renderObjects()
 	vec4f redCol = { 1.0, 0.0, 0.0, 0.0 };
 	vec4f blueCol = { 0.0, 0.0, 1.0, 0.0 };
 	
-	vec4f cameraPos =  camera->position.xyz0();
+	vec4f cameraPos =  camera->position.xyz1();
 	//vec3f lightPos = (Mview * testVec.xyz0()).xyz();
-	vec4f lightPos = { 5.0,5.0,5.0,1.0 };
+	vec4f lightPos = { 0.0, 5.0, 0.0, 1.0 };
 
 
 

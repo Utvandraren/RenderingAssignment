@@ -2,6 +2,7 @@
 struct PSIn
 {
 	float4 Pos  : SV_Position;
+    float3 WorldPos : W_POS;
 	float3 Normal : NORMAL;
 	float2 TexCoord : TEX;
 };
@@ -27,20 +28,20 @@ float4 PS_main(PSIn input) : SV_Target
 	// The 4:th component is opacity and should be = 1
 	//return float4(input.Normal*0.5+0.5, 1);
 
-    float4 lightvector = input.Pos - lightPos;
     
-    ////diffuse
-    float4 result = 
-    (input.Normal + 0.5, 1) * Color +       //ambient
-    (2 * (dot(lightvector, input.Normal))); //diffuse
+    float3 lightVector = normalize(lightPos.xyz - input.WorldPos);
+    float dotProduct = dot(lightVector.xyz, input.Normal);
+
+    float4 result =
+                                //ambient
+    max((0, 0, 1, 1) * dotProduct, 0) //diffuse
+    ;
     
-    
-    //result += float4(input.Normal + 0.5, 1) * Color;
     return result;
     
     
+    
     //return float4(input.Normal + 0.5, 1) * Color;
-
 
 	// Debug shading #2: map and return texture coordinates as a color (blue = 0)
 	//return float4(input.TexCoord, 0, 1);
