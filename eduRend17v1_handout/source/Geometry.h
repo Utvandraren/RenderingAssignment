@@ -54,7 +54,9 @@ public:
 
 	void MapPhongBuffer(
 		ID3D11Buffer* matrix_buffer,
-		vec4f colour);
+		vec4f ambientColor,
+		vec4f diffuseColor,
+		vec4f specularColor);
 
 	//
 	// Abstract render method: must be implemented by derived classes

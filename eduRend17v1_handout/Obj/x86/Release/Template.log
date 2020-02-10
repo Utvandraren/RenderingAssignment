@@ -5,19 +5,19 @@ c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\
 c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\vec\math.h(48): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
 c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\mesh.h(67): warning C4018: '<': signed/unsigned mismatch
 c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\mesh.h(70): warning C4018: '<': signed/unsigned mismatch
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(148): warning C4305: 'argument': truncation from 'double' to 'const T'
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(152): warning C4305: 'argument': truncation from 'double' to 'const T'
           with
           [
               T=float
           ]
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(235): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(244): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(236): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(245): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(237): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(246): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(745): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(746): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(754): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(755): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
 c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\vec\mat.h(527): warning C4244: 'initializing': conversion from 'double' to 'T', possible loss of data
           with
           [
@@ -28,7 +28,7 @@ c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\
           [
               T=float
           ]
-  c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(146): note: see reference to function template instantiation 'linalg::mat4<float> linalg::mat4<float>::rotation(const T &,const T &,const T &,const T &)' being compiled
+  c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(150): note: see reference to function template instantiation 'linalg::mat4<float> linalg::mat4<float>::rotation(const T &,const T &,const T &,const T &)' being compiled
           with
           [
               T=float
@@ -41,9 +41,9 @@ c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\
           ]
   c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\mesh.h(57): note: see reference to function template instantiation 'linalg::vec3<float> linalg::normalize<float>(const linalg::vec3<float> &)' being compiled
   Generating code
-  3 of 2118 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 2119 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 DirectXTK.lib(pch.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DirectXTK.lib(pch.obj)' or at 'C:\Users\Lenovo\Documents\GitHub\RenderingAssignment\eduRend17v1_handout\Bin\x86\DirectXTK.pdb'; linking object as if no debug info
 DirectXTK.lib(WICTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DirectXTK.lib(WICTextureLoader.obj)' or at 'C:\Users\Lenovo\Documents\GitHub\RenderingAssignment\eduRend17v1_handout\Bin\x86\DirectXTK.pdb'; linking object as if no debug info

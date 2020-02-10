@@ -34,6 +34,8 @@ ID3D11Buffer*           g_LightBuffer = nullptr;
 
 InputHandler*			g_InputHandler = nullptr;
 
+vec4f lightPos = { 0.0, 10.0, 10.0, 1.0 };
+
 int width, height;
 
 
@@ -75,6 +77,7 @@ float angle_vel = fPI / 2;	// ...and its velocity
 mat4f Mview;
 // Projection matrix
 mat4f Mproj;
+float time = 0;
 
 //
 // Initialize objects
@@ -104,12 +107,13 @@ void initObjects()
 //
 void updateObjects(float dt)
 {
+	time += dt;
 	camera->Y += g_InputHandler->GetMouseDeltaY() * dt;
 	camera->X += g_InputHandler->GetMouseDeltaX() * dt;
 
 
 	//vec3f testViewWorld = camera->get_ViewToWorldMatrix().column(2).xyz();
-
+	lightPos = vec4f(sinf(time)*5.0f, lightPos.y, lightPos.z, 1);
 
 	// Basic camera control from user inputs
 	if (g_InputHandler->IsKeyPressed(Keys::Up) || g_InputHandler->IsKeyPressed(Keys::W))
@@ -152,13 +156,13 @@ void updateObjects(float dt)
 		     mat4f::scaling(3, 3, 3);
 
 	
-	Mcube2 = mat4f::translation(0, 0, 0) *
-		     //mat4f::rotation(-angle, 0.0f, 1.0f, 0.0f) *
+	Mcube2 = /*mat4f::translation(0, 0, 0) **/
+		     mat4f::rotation(-angle, 0.0f, 1.0f, 0.0f) *
 		     mat4f::scaling(0.5f, 0.5f, 0.5f);
 	
 	Mcube1 = Mcube * Mcube1;
-	Mcube2 = Mcube * Mcube1 * Mcube2;
 
+	Mcube2 = mat4f::translation((lightPos.xyz()));
 
 	// Increase the rotation angle. dt is the frame time step.
 	angle += angle_vel * dt;
@@ -174,39 +178,44 @@ void renderObjects()
 	Mproj = camera->get_ProjectionMatrix();
 
 	// Load matrices + the Quad's transformation to the device and render it
-	vec4f redCol = { 1.0, 0.0, 0.0, 0.0 };
-	vec4f blueCol = { 0.0, 0.0, 1.0, 0.0 };
-	
+	vec4f redAmb = { 0.0, 0.0, 0.0, 0.0 };
+	vec4f redDiff = { 1.0, 0.0, 0.0, 0.0 };
+	vec4f redSpec = { 1.0, 1.0, 1.0, 1.0 };
+
+	vec4f blueAmb = { 0.0, 0.0, 0.0, 0.0 };
+	vec4f blueDiff = { 0.0, 0.0, 1.0, 0.0 };
+	vec4f blueSpec = { 1.0, 1.0, 1.0, 1.0 };
+
+	vec4f whiteDiff = { 1, 1, 1, 1 };
+
 	vec4f cameraPos =  camera->position.xyz1();
-	//vec3f lightPos = (Mview * testVec.xyz0()).xyz();
-	vec4f lightPos = { 0.0, 5.0, 0.0, 1.0 };
 
 
 
 	quad->MapMatrixBuffers(g_MatrixBuffer, Mquad, Mview, Mproj);
-	quad->MapPhongBuffer(g_PhongBuffer, redCol);
+	quad->MapPhongBuffer(g_PhongBuffer,redAmb,redDiff,redSpec);
 	quad->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	quad->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube, Mview, Mproj);
-	cube->MapPhongBuffer(g_PhongBuffer, redCol);
+	cube->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
 	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	cube->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube1, Mview, Mproj);
-	cube->MapPhongBuffer(g_PhongBuffer, blueCol);
+	cube->MapPhongBuffer(g_PhongBuffer,blueAmb,blueDiff,blueSpec);
 	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	cube->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube2, Mview, Mproj);
-	cube->MapPhongBuffer(g_PhongBuffer, blueCol);
+	cube->MapPhongBuffer(g_PhongBuffer, whiteDiff, whiteDiff, blueSpec);
 	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	cube->render();
 
 	
 	// Load matrices + Sponza's transformation to the device and render it
 	sponza->MapMatrixBuffers(g_MatrixBuffer, Msponza, Mview, Mproj);
-	sponza->MapPhongBuffer(g_PhongBuffer, redCol);
+	sponza->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
 	sponza->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	sponza->render();
 }

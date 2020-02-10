@@ -17,7 +17,9 @@ struct MatrixBuffer_t
 
 struct PhongBuffer_t
 {
-	vec4f Color;
+	vec4f ambColor;
+	vec4f diffColor;
+	vec4f specColor;
 };
 
 struct LightCamBuffer_t 

@@ -35,12 +35,16 @@ void Geometry_t::MapLightCameraBuffer(
 
 void Geometry_t::MapPhongBuffer(
 	ID3D11Buffer* phong_buffer,
-	vec4f colour) 
+	vec4f ambientColor, 
+	vec4f diffuseColor, 
+	vec4f specularColor)
 {
 	D3D11_MAPPED_SUBRESOURCE resource;
 	dxdevice_context->Map(phong_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
 	PhongBuffer_t* phong_buffer_ = (PhongBuffer_t*)resource.pData;
-	phong_buffer_->Color = colour;
+	phong_buffer_->ambColor = ambientColor;
+	phong_buffer_->diffColor = diffuseColor;
+	phong_buffer_->specColor = specularColor;
 	dxdevice_context->Unmap(phong_buffer, 0);
 }
 
