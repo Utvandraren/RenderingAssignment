@@ -1,6 +1,31 @@
 
 #include "Geometry.h"
 
+ Geometry_t::Geometry_t(ID3D11Device* dxdevice,
+	ID3D11DeviceContext* dxdevice_context)
+	: dxdevice(dxdevice),
+	dxdevice_context(dxdevice_context)
+{
+
+	//Create sampler
+	D3D11_SAMPLER_DESC sd =
+	{
+		D3D11_FILTER_ANISOTROPIC,               //Filter
+		D3D11_TEXTURE_ADDRESS_WRAP,             //AdressU
+		D3D11_TEXTURE_ADDRESS_WRAP,             //AdressV
+		D3D11_TEXTURE_ADDRESS_WRAP,             //AdressW
+		0.0f,                                   //MipLOBBias
+		4,                                      //MaxAnisotropy
+		D3D11_COMPARISON_NEVER,                 //ComparisonFunc
+		{1.0f, 1.0f, 1.0f, 1.0f},               //BorderColor
+		-FLT_MAX,                               //MinLOD
+		FLT_MAX,                                //MaxLOD
+
+	};
+
+	HRESULT hr;
+	ASSERT(hr = dxdevice->CreateSamplerState(&sd, &samplerState));
+}
 
 void Geometry_t::MapMatrixBuffers(
 	ID3D11Buffer* matrix_buffer,
@@ -46,6 +71,20 @@ void Geometry_t::MapPhongBuffer(
 	phong_buffer_->diffColor = diffuseColor;
 	phong_buffer_->specColor = specularColor;
 	dxdevice_context->Unmap(phong_buffer, 0);
+}
+
+void Geometry_t::MapMaterialBuffer(
+    ID3D11Buffer* material_Buffer,
+    material_t material
+) 
+{
+	//D3D11_MAPPED_SUBRESOURCE resource;
+	//dxdevice_context->Map(material_Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+	//material_t* material_buffer_ = (material_t*)resource.pData;
+	//material_buffer_->map_Kd_TexSRV = material.map_Kd_TexSRV;
+
+	
+
 }
 
 
@@ -210,14 +249,34 @@ OBJModel_t::OBJModel_t(
 			printf("loading texture %s - %s\n", mtl.map_Kd.c_str(), SUCCEEDED(hr) ? "OK" : "FAILED");
 		}
 
+		
+
 		// Same thing with other textres here such as mtl.map_bump (Bump/Normal texture) etc
 		//
 		// ...
+
+		
 	}
 
 	SAFE_DELETE(mesh);
 }
 
+OBJModel_t::~OBJModel_t()
+{
+	for (auto& mtl : materials) 
+	{
+		SAFE_RELEASE(mtl.map_Kd_Tex);
+		SAFE_RELEASE(mtl.map_Kd_TexSRV);
+		SAFE_RELEASE(mtl.map_Ks_Tex);
+		SAFE_RELEASE(mtl.map_Ks_TexSRV);
+		SAFE_RELEASE(mtl.map_d_Tex);
+		SAFE_RELEASE(mtl.map_d_TexSRV);
+		SAFE_RELEASE(mtl.map_bump_Tex);
+		SAFE_RELEASE(mtl.map_bump_TexSRV);
+	}
+
+	SAFE_RELEASE(samplerState);
+}
 
 void OBJModel_t::render() const
 {
@@ -241,6 +300,9 @@ void OBJModel_t::render() const
 		// Bind textures
 		dxdevice_context->PSSetShaderResources(0, 1, &mtl.map_Kd_TexSRV);
 		// ...other textures here (see material_t)
+
+		//bind sampler
+		dxdevice_context->PSSetSamplers(0, 1, &samplerState);
 
 		// Make the drawcall
 		dxdevice_context->DrawIndexed(irange.size, irange.start, 0);

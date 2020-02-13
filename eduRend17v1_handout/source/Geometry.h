@@ -29,14 +29,16 @@ protected:
 	ID3D11Buffer* vertex_buffer = nullptr;
 	ID3D11Buffer* index_buffer = nullptr;
 
+	//Pointers to material buffer and texture sampler
+	ID3D11Buffer* MaterialBuffer = nullptr;
+	ID3D11SamplerState* samplerState = nullptr;
+
 public:
 
 	Geometry_t(
-		ID3D11Device* dxdevice, 
-		ID3D11DeviceContext* dxdevice_context) 
-		:	dxdevice(dxdevice),
-			dxdevice_context(dxdevice_context)
-	{ }
+		ID3D11Device* dxdevice,
+		ID3D11DeviceContext* dxdevice_context);
+	
 
 	//
 	// Map and update the matrix buffer
@@ -57,6 +59,12 @@ public:
 		vec4f ambientColor,
 		vec4f diffuseColor,
 		vec4f specularColor);
+
+	void MapMaterialBuffer(
+		ID3D11Buffer* material_Buffer,
+		material_t material
+	);
+
 
 	//
 	// Abstract render method: must be implemented by derived classes
@@ -119,7 +127,7 @@ public:
 
 	virtual void render() const;
 
-	~OBJModel_t() { }
+	~OBJModel_t();
 };
 
 #endif

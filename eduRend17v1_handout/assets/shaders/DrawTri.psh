@@ -20,6 +20,10 @@ cbuffer LightCameraBuffer : register(b1)
     float4 camerPos;
 }
 
+Texture2D texDiffuse : register(t0);
+Texture2D texNormal : register(t1);
+SamplerState texSampler : register(s0);
+
 //-----------------------------------------------------------------------------------------
 // Pixel Shader
 //-----------------------------------------------------------------------------------------
@@ -30,9 +34,19 @@ float4 PS_main(PSIn input) : SV_Target
 	// The 4:th component is opacity and should be = 1
 	//return float4(input.Normal*0.5+0.5, 1);
 
+    int rotRad = 3.14;
+    int x = 0;
+    int y = 0;
+    input.TexCoord.x = x;
+    input.TexCoord.y = y;
+    
+    input.TexCoord.x = x * cos(rotRad) - y * sin(rotRad);
+    input.TexCoord.y = x * sin(rotRad) + y * cos(rotRad);
+    
     float4 ambientColor = ambColor;
 
     float4 diffuseColor = diffColor;
+    diffuseColor = texDiffuse.Sample(texSampler, input.TexCoord);
     float3 lightVector = normalize(lightPos.xyz - input.WorldPos);
     float dotProductLightVec = dot(lightVector.xyz, input.Normal);
 
