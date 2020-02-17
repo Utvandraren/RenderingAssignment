@@ -10,6 +10,13 @@
 	//Create sampler
 	D3D11_SAMPLER_DESC sd =
 	{
+		//D3D11_FILTER_MIN_MAG_MIP_LINEAR
+		//D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT
+		//D3D11_FILTER_ANISOTROPIC
+
+		//D3D11_TEXTURE_ADDRESS_CLAMP
+		//D3D11_TEXTURE_ADDRESS_MIRROR
+
 		D3D11_FILTER_ANISOTROPIC,               //Filter
 		D3D11_TEXTURE_ADDRESS_WRAP,             //AdressU
 		D3D11_TEXTURE_ADDRESS_WRAP,             //AdressV
@@ -249,6 +256,16 @@ OBJModel_t::OBJModel_t(
 			printf("loading texture %s - %s\n", mtl.map_Kd.c_str(), SUCCEEDED(hr) ? "OK" : "FAILED");
 		}
 
+		// map_Ks (specular texture)
+		if (mtl.map_Ks.size()) {
+			// Convert the file path string to wstring
+			wstr = std::wstring(mtl.map_Ks.begin(), mtl.map_Ks.end());
+			// Load texture to device and obtain pointers to it
+			hr = DirectX::CreateWICTextureFromFile(dxdevice, dxdevice_context, wstr.c_str(), &mtl.map_Ks_Tex, &mtl.map_Ks_TexSRV);
+			// Say how it went
+			printf("loading texture %s - %s\n", mtl.map_Ks.c_str(), SUCCEEDED(hr) ? "OK" : "FAILED");
+		}
+
 		
 
 		// Same thing with other textres here such as mtl.map_bump (Bump/Normal texture) etc
@@ -299,6 +316,7 @@ void OBJModel_t::render() const
 
 		// Bind textures
 		dxdevice_context->PSSetShaderResources(0, 1, &mtl.map_Kd_TexSRV);
+		dxdevice_context->PSSetShaderResources(2, 1, &mtl.map_Ks_TexSRV);
 		// ...other textures here (see material_t)
 
 		//bind sampler

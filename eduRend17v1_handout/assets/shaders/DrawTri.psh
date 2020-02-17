@@ -22,6 +22,7 @@ cbuffer LightCameraBuffer : register(b1)
 
 Texture2D texDiffuse : register(t0);
 Texture2D texNormal : register(t1);
+Texture2D textSpecular : register(t2);
 SamplerState texSampler : register(s0);
 
 //-----------------------------------------------------------------------------------------
@@ -32,40 +33,33 @@ float4 PS_main(PSIn input) : SV_Target
 {	
 	// Debug shading #1: map and return normal as a color, i.e. from [-1,1]->[0,1] per component
 	// The 4:th component is opacity and should be = 1
-	//return float4(input.Normal*0.5+0.5, 1);
-
-    int rotRad = 3.14;
-    int x = 0;
-    int y = 0;
-    input.TexCoord.x = x;
-    input.TexCoord.y = y;
+	//return float4(input.Normal*0.5+0.5, 1); 
     
-    input.TexCoord.x = x * cos(rotRad) - y * sin(rotRad);
-    input.TexCoord.y = x * sin(rotRad) + y * cos(rotRad);
-    
-    float4 ambientColor = ambColor;
+    //Ambient
+    float4 ambientColor = ambColor;  
 
+    //Diffuse
     float4 diffuseColor = diffColor;
     diffuseColor = texDiffuse.Sample(texSampler, input.TexCoord);
     float3 lightVector = normalize(lightPos.xyz - input.WorldPos);
     float dotProductLightVec = dot(lightVector.xyz, input.Normal);
 
+    //Specular
     float4 specularColor = specColor;
+    specularColor = textSpecular.Sample(texSampler, input.TexCoord);
     float3 viewVector = normalize(camerPos.xyz - input.WorldPos);
     float3 reflectVector = normalize(reflect(-lightVector, input.Normal));
     float dotProductReflView = dot(reflectVector, viewVector);
     
-    float4 result = 
-     max(ambientColor, 0) //ambient
-    + max(diffuseColor * dotProductLightVec, 0) //diffuse
-    + max(specularColor * pow(dotProductReflView, 50), 0) //Specular
-    ;
-    
+    float4 result =
+    max(ambientColor, 0) //Ambient
+    + max(diffuseColor * dotProductLightVec, 0) //Diffuse
+    + max(specularColor * pow(dotProductReflView, 50), 0); //Specular
+   
     return result;
     
     
     
-    //return float4(input.Normal + 0.5, 1) * Color;
 
 	// Debug shading #2: map and return texture coordinates as a color (blue = 0)
 	//return float4(input.TexCoord, 0, 1);

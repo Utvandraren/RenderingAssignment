@@ -46,6 +46,18 @@ PSIn VS_main(VSIn input)
     output.WorldPos = mul(ModelToWorldMatrix, float4(input.Pos, 1)).xyz;
     
 	output.TexCoord = input.TexCoord;
-		
+	
+    //int rotRad = 3.14;
+    //int x = 0;
+    //int y = 0;
+    //output.TexCoord.x = x;
+    //output.TexCoord.y = y;
+    
+    //input.TexCoord.x = x * cos(rotRad) - y * sin(rotRad);
+    //output.TexCoord.y = x * sin(rotRad) + y * cos(rotRad);
+    
+    output.TexCoord.y = (input.TexCoord.y * -1.0) + 1.0;
+    
+    
 	return output;
 }

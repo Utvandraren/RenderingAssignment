@@ -33,6 +33,7 @@ struct material_t
     
 	std::string name;		// Material name
 	std::string map_Kd;		// Texture file path
+	std::string map_Ks;     // Texture file path
 	std::string map_bump;	// Texture file path
 
 	// Device texture pointers
