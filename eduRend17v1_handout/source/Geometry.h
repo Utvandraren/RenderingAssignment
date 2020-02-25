@@ -71,6 +71,8 @@ public:
 	//
 	virtual void render() const = 0;
 
+	void compute_tangentspace(vertex_t& v0, vertex_t& v1, vertex_t& v2);
+
 	//
 	// Destructor
 	//

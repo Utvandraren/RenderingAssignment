@@ -22,6 +22,8 @@ struct PSIn
 	float4 Pos  : SV_Position;
     float3 WorldPos : W_POS;
 	float3 Normal : NORMAL;
+    float3 Tangent : TANGENT;
+    float3 Binormal : BINORMAL;
 	float2 TexCoord : TEX;
 };
 
@@ -43,19 +45,10 @@ PSIn VS_main(VSIn input)
 	// Perform transformations and send to output
 	output.Pos = mul(MVP, float4(input.Pos, 1));
 	output.Normal = normalize( mul(ModelToWorldMatrix, float4(input.Normal,0)).xyz);
+    output.Binormal = normalize(mul(ModelToWorldMatrix, float4(input.Binormal, 0)).xyz);
+    output.Tangent = normalize(mul(ModelToWorldMatrix, float4(input.Tangent, 0)).xyz);
     output.WorldPos = mul(ModelToWorldMatrix, float4(input.Pos, 1)).xyz;
-    
 	output.TexCoord = input.TexCoord;
-	
-    //int rotRad = 3.14;
-    //int x = 0;
-    //int y = 0;
-    //output.TexCoord.x = x;
-    //output.TexCoord.y = y;
-    
-    //input.TexCoord.x = x * cos(rotRad) - y * sin(rotRad);
-    //output.TexCoord.y = x * sin(rotRad) + y * cos(rotRad);
-    
     output.TexCoord.y = (input.TexCoord.y * -1.0) + 1.0;
     
     

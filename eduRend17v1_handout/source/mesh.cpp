@@ -38,6 +38,8 @@ void mesh_t::load_mtl(	std::string path,
             mtl_hash[str0] = material_t();
             current_mtl = &mtl_hash[str0];
             current_mtl->name = str0;
+
+			current_mtl->map_bump = "../../Assets/textures/DefaultNormal.jpg";
         }
         else if (!current_mtl)
         {

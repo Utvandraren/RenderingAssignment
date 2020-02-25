@@ -80,18 +80,76 @@ void Geometry_t::MapPhongBuffer(
 	dxdevice_context->Unmap(phong_buffer, 0);
 }
 
-void Geometry_t::MapMaterialBuffer(
-    ID3D11Buffer* material_Buffer,
-    material_t material
-) 
+//Compute and assign TANGENT and BINORMAL for three triangle vertices
+void Geometry_t::compute_tangentspace(vertex_t& v0, vertex_t& v1, vertex_t& v2)
 {
-	//D3D11_MAPPED_SUBRESOURCE resource;
-	//dxdevice_context->Map(material_Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
-	//material_t* material_buffer_ = (material_t*)resource.pData;
-	//material_buffer_->map_Kd_TexSRV = material.map_Kd_TexSRV;
+	vec3f tangent;
+	vec3f binormal;
+    vec3f D = vec3f(v1.Pos - v0.Pos);
+	vec3f E = vec3f(v2.Pos - v0.Pos);
+	vec2f F = v1.TexCoord - v0.TexCoord;
+	vec2f G = v2.TexCoord - v0.TexCoord;
+
+	mat3f GF;
+	mat3f DE;
+	mat3f result;
+
+	float Tx;
+	float Ty;
+	float Tz;
+
+	float Bx;
+	float By;
+	float Bz;
+
+	float constant = (1 / ((F.x * G.y) - (F.y * G.x)));
+
+	/*GF = mat3f({G,0.0f},{F,0.0f},{0.0f,0.0f,1.0f});
+
+	GF.column(0) = vec3f(G.y, -G.x, 0);
+	GF.column(1) = vec3f(-F.y, F.x, 0);
+	GF.column(2) = vec3f(0, 0, 1);
+
+	DE.column(0) = vec3f(D.x, E.x, 0);
+	DE.column(1) = vec3f(D.y, E.y, 0);
+	DE.column(2) = vec3f(D.z, E.z, 1);
+
+	result = GF * DE;
+	result *= constant;
+
+	tangent = vec3f(result.m11, result.m12, result.m13);
+	binormal = vec3f(result.m21, result.m22, result.m23);
+
+	tangent.normalize();
+	binormal.normalize();*/
+
+	Tx = constant * (G.y * D.x + (-F.y) * E.x);
+	Ty = constant * (G.y * D.y + (-F.y) * E.y);
+	Tz = constant * (G.y * D.z + (-F.y) * E.z);
+
+	Bx = constant * ((-G.x) * D.x + F.x * E.x);
+	By = constant * ((-G.x) * D.y + F.x * E.y);
+	Bz = constant * ((-G.x) * D.z + F.x * E.z);
+
+	tangent = vec3f(Tx, Ty, Tz);
+	binormal = vec3f(Bx, By, Bz);
+
+	tangent.normalize();
+	binormal.normalize();
+
 
 	
+	/*tangent =  vec3f(G.y * D.x + (-F.y) * E.x, G.y * D.y + (-F.y) * E.y, G.y * D.z + (-F.y) * E.z);
+	binormal = vec3f((-G.x) * D.x + F.x * E.x, (-G.x) * D.y + F.x * E.y, (-G.x) * D.z + F.x * E.z);
+	
+	tangent *= constant;
+	binormal *= constant;
 
+	tangent = normalize(tangent);
+    binormal = normalize(binormal);*/
+
+	v0.Tangent = v1.Tangent = v2.Tangent = tangent;
+	v0.Binormal = v1.Binormal = v2.Binormal = binormal;
 }
 
 
@@ -190,17 +248,19 @@ OBJModel_t::OBJModel_t(
 	mesh_t* mesh = new mesh_t();
 	mesh->load_obj(objfile);
 
-	// Load and organize indices in ranges per drawcall (material)
-
 	std::vector<unsigned> indices;
 	size_t i_ofs = 0;
 
 	for (auto& dc : mesh->drawcalls)
 	{
 		// Append the drawcall indices
-		for (auto& tri : dc.tris)
+		for (auto& tri : dc.tris) 
+		{
 			indices.insert(indices.end(), tri.vi, tri.vi + 3);
 
+			compute_tangentspace(mesh->vertices[tri.vi[0]], mesh->vertices[tri.vi[1]], mesh->vertices[tri.vi[2]]);
+		}
+		
 		// Create a range
 		size_t i_size = dc.tris.size() * 3;
 		int mtl_index = dc.mtl_index > -1 ? dc.mtl_index : -1;
@@ -266,13 +326,15 @@ OBJModel_t::OBJModel_t(
 			printf("loading texture %s - %s\n", mtl.map_Ks.c_str(), SUCCEEDED(hr) ? "OK" : "FAILED");
 		}
 
-		
-
-		// Same thing with other textres here such as mtl.map_bump (Bump/Normal texture) etc
-		//
-		// ...
-
-		
+		// map_bump (normal texture)
+		if (mtl.map_bump.size()) {
+			// Convert the file path string to wstring
+			wstr = std::wstring(mtl.map_bump.begin(), mtl.map_bump.end());
+			// Load texture to device and obtain pointers to it
+			hr = DirectX::CreateWICTextureFromFile(dxdevice, dxdevice_context, wstr.c_str(), &mtl.map_bump_Tex, &mtl.map_bump_TexSRV);
+			// Say how it went
+			printf("loading texture %s - %s\n", mtl.map_bump.c_str(), SUCCEEDED(hr) ? "OK" : "FAILED");
+		}	
 	}
 
 	SAFE_DELETE(mesh);
@@ -316,6 +378,7 @@ void OBJModel_t::render() const
 
 		// Bind textures
 		dxdevice_context->PSSetShaderResources(0, 1, &mtl.map_Kd_TexSRV);
+		dxdevice_context->PSSetShaderResources(1, 1, &mtl.map_bump_TexSRV);
 		dxdevice_context->PSSetShaderResources(2, 1, &mtl.map_Ks_TexSRV);
 		// ...other textures here (see material_t)
 

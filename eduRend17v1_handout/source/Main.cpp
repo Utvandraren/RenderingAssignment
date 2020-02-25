@@ -113,7 +113,9 @@ void updateObjects(float dt)
 
 
 	//vec3f testViewWorld = camera->get_ViewToWorldMatrix().column(2).xyz();
-	lightPos = vec4f(sinf(time)*5.0f, lightPos.y, lightPos.z, 1);
+	//lightPos = vec4f(sinf(time)*5.0f, lightPos.y, lightPos.z, 1);
+	lightPos = vec4f(lightPos.x, lightPos.y, sinf(time)*10.0f, 1);
+
 
 	// Basic camera control from user inputs
 	if (g_InputHandler->IsKeyPressed(Keys::Up) || g_InputHandler->IsKeyPressed(Keys::W))

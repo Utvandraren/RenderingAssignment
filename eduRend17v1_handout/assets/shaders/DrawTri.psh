@@ -1,10 +1,12 @@
 
 struct PSIn
 {
-	float4 Pos  : SV_Position;
+    float4 Pos : SV_Position;
     float3 WorldPos : W_POS;
-	float3 Normal : NORMAL;
-	float2 TexCoord : TEX;
+    float3 Normal : NORMAL;
+    float3 Tangent : TANGENT;
+    float3 Binormal : BINORMAL;
+    float2 TexCoord : TEX;
 };
 
 cbuffer PhongIN : register(b0)
@@ -34,33 +36,65 @@ float4 PS_main(PSIn input) : SV_Target
 	// Debug shading #1: map and return normal as a color, i.e. from [-1,1]->[0,1] per component
 	// The 4:th component is opacity and should be = 1
 	//return float4(input.Normal*0.5+0.5, 1); 
+    float3 normal;
+    float3 binormal;
+    float3 tangent;
+    float3 normalColor;
+    float3 newNormal;
+    float3x3 TBN;
+
+    
+    normal = normalize(input.Normal);
+    binormal = normalize(input.Binormal);
+    tangent = normalize(input.Tangent);
+    
+    normalColor = texNormal.Sample(texSampler, input.TexCoord);
+
+    newNormal = normalColor * 2 - 1;
+    newNormal = float3(newNormal.x, -newNormal.y, newNormal.z);
+    TBN = (float3x3(tangent, binormal, normal));
+
+    normal = normalize((mul(newNormal.xyz, TBN)));
+    //return float4(normal * 0.5 + 0.5, 1);
+    
+    
+    float4 result;
     
     //Ambient
-    float4 ambientColor = ambColor;  
-
+    float4 ambientColor;
+    
+    ambientColor = ambColor;  
+    
+    result = max(ambientColor, 0);
+    
     //Diffuse
-    float4 diffuseColor = diffColor;
+    float4 diffuseColor;
+    float3 lightVector;
+    float dotProductLightVec;
+    
+    diffuseColor = diffColor;
     diffuseColor = texDiffuse.Sample(texSampler, input.TexCoord);
-    float3 lightVector = normalize(lightPos.xyz - input.WorldPos);
-    float dotProductLightVec = dot(lightVector.xyz, input.Normal);
+    lightVector = normalize(lightPos.xyz - input.WorldPos);
+    dotProductLightVec = dot(lightVector.xyz, normal);
+    
+    result += max(diffuseColor * dotProductLightVec, 0);
 
     //Specular
-    float4 specularColor = specColor;
-    specularColor = textSpecular.Sample(texSampler, input.TexCoord);
-    float3 viewVector = normalize(camerPos.xyz - input.WorldPos);
-    float3 reflectVector = normalize(reflect(-lightVector, input.Normal));
-    float dotProductReflView = dot(reflectVector, viewVector);
+    float4 specularColor;
+    float3 viewVector;
+    float3 reflectVector;
+    float dotProductReflView;
     
-    float4 result =
-    max(ambientColor, 0) //Ambient
-    + max(diffuseColor * dotProductLightVec, 0) //Diffuse
-    + max(specularColor * pow(dotProductReflView, 50), 0); //Specular
+    specularColor = specColor;
+    specularColor = textSpecular.Sample(texSampler, input.TexCoord);
+    viewVector = normalize(camerPos.xyz - input.WorldPos);
+    reflectVector = normalize(reflect(lightVector, normal));
+    dotProductReflView = saturate(dot(reflectVector, viewVector));
+    
+    result += max(specularColor * pow(dotProductReflView, 50), 0);
    
     return result;
     
-    
-    
-
 	// Debug shading #2: map and return texture coordinates as a color (blue = 0)
 	//return float4(input.TexCoord, 0, 1);
 }
