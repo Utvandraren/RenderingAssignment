@@ -25,6 +25,7 @@ cbuffer LightCameraBuffer : register(b1)
 Texture2D texDiffuse : register(t0);
 Texture2D texNormal : register(t1);
 Texture2D textSpecular : register(t2);
+TextureCube texCube : register(t3);
 SamplerState texSampler : register(s0);
 
 //-----------------------------------------------------------------------------------------

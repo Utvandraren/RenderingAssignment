@@ -70,6 +70,7 @@ mat4f Mquad;
 mat4f Mcube;
 mat4f Mcube1;
 mat4f Mcube2;
+mat4f McubeMap;
 
 float angle = 0;			// A per-frame updated rotation angle (radians)...
 float angle_vel = fPI / 2;	// ...and its velocity
@@ -166,6 +167,9 @@ void updateObjects(float dt)
 
 	Mcube2 = mat4f::translation((lightPos.xyz()));
 
+	McubeMap = mat4f::translation(0, 0, 0) *
+		       mat4f::scaling(1000, 1000, 1000);
+
 	// Increase the rotation angle. dt is the frame time step.
 	angle += angle_vel * dt;
 }
@@ -192,12 +196,11 @@ void renderObjects()
 
 	vec4f cameraPos =  camera->position.xyz1();
 
-
-
-	quad->MapMatrixBuffers(g_MatrixBuffer, Mquad, Mview, Mproj);
-	quad->MapPhongBuffer(g_PhongBuffer,redAmb,redDiff,redSpec);
-	quad->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
-	quad->render();
+	
+	cube->MapMatrixBuffers(g_MatrixBuffer, McubeMap, Mview, Mproj);
+	cube->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
+	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
+	cube->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube, Mview, Mproj);
 	cube->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
@@ -214,6 +217,10 @@ void renderObjects()
 	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	cube->render();
 
+	quad->MapMatrixBuffers(g_MatrixBuffer, Mquad, Mview, Mproj);
+	quad->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
+	quad->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
+	quad->render();
 	
 	// Load matrices + Sponza's transformation to the device and render it
 	sponza->MapMatrixBuffers(g_MatrixBuffer, Msponza, Mview, Mproj);
