@@ -60,7 +60,7 @@ void				Release();
 // Declarations
 //
 camera_t* camera;
-float camera_vel = 5.0f;	// Camera movement velocity in units/s
+float camera_vel = 10.0f;	// Camera movement velocity in units/s
 Quad_t* quad;
 Cube *cube;
 OBJModel_t* sponza;
@@ -182,7 +182,7 @@ void renderObjects()
 	// Load matrices + the Quad's transformation to the device and render it
 	vec4f redAmb = { 0.0, 0.0, 0.0, 0.0 };
 	vec4f redDiff = { 1.0, 0.0, 0.0, 0.0 };
-	vec4f redSpec = { 1.0, 1.0, 1.0, 1.0 };
+	vec4f redSpec = { 1.0, 1.0, 1.0, 0.0 };
 
 	vec4f blueAmb = { 0.0, 0.0, 0.0, 0.0 };
 	vec4f blueDiff = { 0.0, 0.0, 1.0, 0.0 };

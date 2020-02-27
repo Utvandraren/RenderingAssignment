@@ -90,10 +90,6 @@ void Geometry_t::compute_tangentspace(vertex_t& v0, vertex_t& v1, vertex_t& v2)
 	vec2f F = v1.TexCoord - v0.TexCoord;
 	vec2f G = v2.TexCoord - v0.TexCoord;
 
-	mat3f GF;
-	mat3f DE;
-	mat3f result;
-
 	float Tx;
 	float Ty;
 	float Tz;
@@ -103,25 +99,6 @@ void Geometry_t::compute_tangentspace(vertex_t& v0, vertex_t& v1, vertex_t& v2)
 	float Bz;
 
 	float constant = (1 / ((F.x * G.y) - (F.y * G.x)));
-
-	/*GF = mat3f({G,0.0f},{F,0.0f},{0.0f,0.0f,1.0f});
-
-	GF.column(0) = vec3f(G.y, -G.x, 0);
-	GF.column(1) = vec3f(-F.y, F.x, 0);
-	GF.column(2) = vec3f(0, 0, 1);
-
-	DE.column(0) = vec3f(D.x, E.x, 0);
-	DE.column(1) = vec3f(D.y, E.y, 0);
-	DE.column(2) = vec3f(D.z, E.z, 1);
-
-	result = GF * DE;
-	result *= constant;
-
-	tangent = vec3f(result.m11, result.m12, result.m13);
-	binormal = vec3f(result.m21, result.m22, result.m23);
-
-	tangent.normalize();
-	binormal.normalize();*/
 
 	Tx = constant * (G.y * D.x + (-F.y) * E.x);
 	Ty = constant * (G.y * D.y + (-F.y) * E.y);
@@ -136,17 +113,6 @@ void Geometry_t::compute_tangentspace(vertex_t& v0, vertex_t& v1, vertex_t& v2)
 
 	tangent.normalize();
 	binormal.normalize();
-
-
-	
-	/*tangent =  vec3f(G.y * D.x + (-F.y) * E.x, G.y * D.y + (-F.y) * E.y, G.y * D.z + (-F.y) * E.z);
-	binormal = vec3f((-G.x) * D.x + F.x * E.x, (-G.x) * D.y + F.x * E.y, (-G.x) * D.z + F.x * E.z);
-	
-	tangent *= constant;
-	binormal *= constant;
-
-	tangent = normalize(tangent);
-    binormal = normalize(binormal);*/
 
 	v0.Tangent = v1.Tangent = v2.Tangent = tangent;
 	v0.Binormal = v1.Binormal = v2.Binormal = binormal;
@@ -257,7 +223,6 @@ OBJModel_t::OBJModel_t(
 		for (auto& tri : dc.tris) 
 		{
 			indices.insert(indices.end(), tri.vi, tri.vi + 3);
-
 			compute_tangentspace(mesh->vertices[tri.vi[0]], mesh->vertices[tri.vi[1]], mesh->vertices[tri.vi[2]]);
 		}
 		

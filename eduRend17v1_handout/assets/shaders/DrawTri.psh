@@ -91,7 +91,7 @@ float4 PS_main(PSIn input) : SV_Target
     reflectVector = normalize(reflect(lightVector, normal));
     dotProductReflView = saturate(dot(reflectVector, viewVector));
     
-    result += max(specularColor * pow(dotProductReflView, 50), 0);
+    result += max(specularColor * pow(dotProductReflView, 70), 0);
    
     return result;
     
