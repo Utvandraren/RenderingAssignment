@@ -32,8 +32,8 @@ struct LightCamBuffer_t
 
 struct CubeMapBuffer_t
 {
-	ID3D11ShaderResourceView*   map_Cube_TexSRV;
-	ID3D11Resource* map_Cube_Tex;
+	int isCubeMap;
+	float3 dummy;
 };
 
 

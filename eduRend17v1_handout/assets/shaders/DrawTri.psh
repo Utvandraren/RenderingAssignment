@@ -14,12 +14,19 @@ cbuffer PhongIN : register(b0)
     float4 ambColor;
     float4 diffColor;
     float4 specColor;
+
 };
 
 cbuffer LightCameraBuffer : register(b1)
 {
     float4 lightPos;
     float4 camerPos;
+}
+
+cbuffer CubeMapBuffer : register(b2)
+{
+    int isCubeMap;
+    float3 dummy;
 }
 
 Texture2D texDiffuse : register(t0);
@@ -43,13 +50,14 @@ float4 PS_main(PSIn input) : SV_Target
     float3 normalColor;
     float3 newNormal;
     float3x3 TBN;
-
+    float3 cubeMap;
     
     normal = normalize(input.Normal);
     binormal = normalize(input.Binormal);
     tangent = normalize(input.Tangent);
     
     normalColor = texNormal.Sample(texSampler, input.TexCoord);
+    
 
     newNormal = normalColor * 2 - 1;
     newNormal = float3(newNormal.x, -newNormal.y, newNormal.z);
@@ -73,10 +81,17 @@ float4 PS_main(PSIn input) : SV_Target
     float3 lightVector;
     float dotProductLightVec;
     
-    diffuseColor = diffColor;
-    diffuseColor = texDiffuse.Sample(texSampler, input.TexCoord);
+    
     lightVector = normalize(lightPos.xyz - input.WorldPos);
     dotProductLightVec = dot(lightVector.xyz, normal);
+
+    diffuseColor = diffColor;
+    diffuseColor = texDiffuse.Sample(texSampler, input.TexCoord);
+    
+    if (isCubeMap)
+    {
+        diffuseColor = texCube.Sample(texSampler, dotProductLightVec);
+    }
     
     result += max(diffuseColor * dotProductLightVec, 0);
 

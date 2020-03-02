@@ -37,13 +37,14 @@
  void Geometry_t::MapCubeMapBuffer(
 	 ID3D11Buffer* CubeMap_Buffer,
 	 ID3D11ShaderResourceView* map_Cube_TexSRV,
-	 ID3D11Resource* map_Cube_Tex)
+	 ID3D11Resource* map_Cube_Tex,
+	 bool isCubeMap)
  {
 	 D3D11_MAPPED_SUBRESOURCE resource;
 	 dxdevice_context->Map(CubeMap_Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
 	 CubeMapBuffer_t* cube_buffer_ = (CubeMapBuffer_t*)resource.pData;
-	 cube_buffer_->map_Cube_TexSRV = map_Cube_TexSRV;
-	 cube_buffer_->map_Cube_Tex = map_Cube_Tex;
+	 dxdevice_context->PSSetShaderResources(3, 1, &map_Cube_TexSRV);
+	 cube_buffer_->isCubeMap = isCubeMap;
 	 dxdevice_context->Unmap(CubeMap_Buffer, 0);
  }
 

@@ -31,6 +31,7 @@ ID3D11PixelShader*		g_PixelShader			= nullptr;
 ID3D11Buffer*			g_MatrixBuffer = nullptr;
 ID3D11Buffer*			g_PhongBuffer = nullptr;
 ID3D11Buffer*           g_LightBuffer = nullptr;
+ID3D11Buffer*           g_CubeMapBuffer = nullptr;
 
 InputHandler*			g_InputHandler = nullptr;
 
@@ -100,7 +101,7 @@ void initObjects()
 	quad = new Quad_t(g_Device, g_DeviceContext);
 	cube = new Cube(g_Device, g_DeviceContext);
 //	obj = new OBJModel_t("../../assets/tyre/Tyre.obj", g_Device, g_DeviceContext);
-	sponza = new OBJModel_t("../../assets/crytek-sponza/sponza.obj", g_Device, g_DeviceContext);
+	//sponza = new OBJModel_t("../../assets/crytek-sponza/sponza.obj", g_Device, g_DeviceContext);//////////////////////////////////////////////
 }
 
 //
@@ -179,6 +180,21 @@ void updateObjects(float dt)
 //
 void renderObjects()
 {
+	HRESULT hr;
+	std::wstring wstr; // for conversion from string to wstring
+	std::string str;
+	ID3D11ShaderResourceView*	map_Cube_TexSRV;
+	ID3D11Resource*				map_Cube_Tex;
+
+	str = "sunsetcube1024.dds";
+	wstr = std::wstring(str.begin(), str.end());
+
+
+
+	///problem med cubebuffer och texturen fixa nästa gång
+	//// Load texture to device and obtain pointers to it
+	//hr = DirectX::CreateDDSTextureFromFile(g_Device, g_DeviceContext, map_Cube_Tex, map_Cube_TexSRV);
+	hr = DirectX::CreateDDSTextureFromFile(g_Device, g_DeviceContext, wstr.c_str(),&map_Cube_Tex, &map_Cube_TexSRV, 10, nullptr);
 	// Obtain the matrices needed for rendering from the camera
 	Mview = camera->get_WorldToViewMatrix();
 	Mproj = camera->get_ProjectionMatrix();
@@ -195,11 +211,11 @@ void renderObjects()
 	vec4f whiteDiff = { 1, 1, 1, 1 };
 
 	vec4f cameraPos =  camera->position.xyz1();
-
 	
 	cube->MapMatrixBuffers(g_MatrixBuffer, McubeMap, Mview, Mproj);
 	cube->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
 	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
+	cube->MapCubeMapBuffer(g_CubeMapBuffer, map_Cube_TexSRV, map_Cube_Tex);
 	cube->render();
 
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube, Mview, Mproj);
@@ -222,10 +238,12 @@ void renderObjects()
 	quad->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	quad->render();
 	
+
 	// Load matrices + Sponza's transformation to the device and render it
 	sponza->MapMatrixBuffers(g_MatrixBuffer, Msponza, Mview, Mproj);
 	sponza->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
 	sponza->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
+	//sponza->MapCubeMapBuffer(g_CubeMapBuffer, map_Cube_TexSRV, map_Cube_Tex);
 	sponza->render();
 }
 
@@ -590,6 +608,18 @@ void InitShaderBuffers()
 	PhongBuffer_desc.StructureByteStride = 0;
 
 	ASSERT(hr = g_Device->CreateBuffer(&PhongBuffer_desc, nullptr, &g_PhongBuffer));
+
+	//CubemapBuffer
+	D3D11_BUFFER_DESC CubeMapBuffer_desc = { 0 };
+	CubeMapBuffer_desc.Usage = D3D11_USAGE_DYNAMIC;
+	CubeMapBuffer_desc.ByteWidth = sizeof(CubeMapBuffer_t);
+	CubeMapBuffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	CubeMapBuffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	CubeMapBuffer_desc.MiscFlags = 0;
+	CubeMapBuffer_desc.StructureByteStride = 0;
+
+	ASSERT(hr = g_Device->CreateBuffer(&CubeMapBuffer_desc, nullptr, &g_CubeMapBuffer));
+	ASSERT(g_CubeMapBuffer);
 }
 
 HRESULT CreateRenderTargetView()
@@ -688,6 +718,9 @@ HRESULT Render(float deltaTime)
 
 	//Set lightBuffer
 	g_DeviceContext->PSSetConstantBuffers(1, 1, &g_LightBuffer);
+
+	//Set cubemapbuffer
+	g_DeviceContext->PSGetConstantBuffers(2, 1, &g_CubeMapBuffer);
 	
 	// time to render our objects
 	renderObjects();
