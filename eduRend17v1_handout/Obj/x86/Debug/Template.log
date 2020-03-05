@@ -4,19 +4,19 @@
 c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\vec\math.h(48): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
 c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\mesh.h(67): warning C4018: '<': signed/unsigned mismatch
 c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\mesh.h(70): warning C4018: '<': signed/unsigned mismatch
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(156): warning C4305: 'argument': truncation from 'double' to 'const T'
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(158): warning C4305: 'argument': truncation from 'double' to 'const T'
           with
           [
               T=float
           ]
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(268): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(276): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(269): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(277): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(270): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(278): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(243): note: see declaration of 'freopen'
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(793): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(794): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(801): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(802): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
 c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\vec\mat.h(527): warning C4244: 'initializing': conversion from 'double' to 'T', possible loss of data
           with
           [
@@ -27,7 +27,7 @@ c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\
           [
               T=float
           ]
-  c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(154): note: see reference to function template instantiation 'linalg::mat4<float> linalg::mat4<float>::rotation(const T &,const T &,const T &,const T &)' being compiled
+  c:\users\lenovo\documents\github\renderingassignment\edurend17v1_handout\source\main.cpp(156): note: see reference to function template instantiation 'linalg::mat4<float> linalg::mat4<float>::rotation(const T &,const T &,const T &,const T &)' being compiled
           with
           [
               T=float

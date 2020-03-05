@@ -197,6 +197,7 @@
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="parseutil.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderBuffers.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="vec\mat.h" />
@@ -206,6 +207,12 @@
   <ItemGroup>
     <None Include="..\assets\shaders\DrawTri.psh" />
     <None Include="..\assets\shaders\DrawTri.vsh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="eduRend.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\assets\shaders\CbMp.psh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

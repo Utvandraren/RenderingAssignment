@@ -27,6 +27,7 @@ ID3D11RasterizerState*	g_RasterState			= nullptr;
 ID3D11InputLayout*		g_InputLayout			= nullptr;
 ID3D11VertexShader*		g_VertexShader			= nullptr;
 ID3D11PixelShader*		g_PixelShader			= nullptr;
+ID3D11PixelShader*      g_CubeMapShader         = nullptr;
 
 ID3D11Buffer*			g_MatrixBuffer = nullptr;
 ID3D11Buffer*			g_PhongBuffer = nullptr;
@@ -38,6 +39,12 @@ InputHandler*			g_InputHandler = nullptr;
 vec4f lightPos = { 0.0, 10.0, 10.0, 1.0 };
 
 int width, height;
+
+HRESULT hr;
+std::wstring wstr; // for conversion from string to wstring
+std::string str;
+ID3D11ShaderResourceView*	map_Cube_TexSRV = nullptr;
+ID3D11Resource*				map_Cube_Tex = nullptr;
 
 
 
@@ -64,6 +71,7 @@ camera_t* camera;
 float camera_vel = 10.0f;	// Camera movement velocity in units/s
 Quad_t* quad;
 Cube *cube;
+OBJModel_t* skyMap;
 OBJModel_t* sponza;
 // Object model-to-world transformation matrices
 mat4f Msponza;
@@ -101,7 +109,15 @@ void initObjects()
 	quad = new Quad_t(g_Device, g_DeviceContext);
 	cube = new Cube(g_Device, g_DeviceContext);
 //	obj = new OBJModel_t("../../assets/tyre/Tyre.obj", g_Device, g_DeviceContext);
-	//sponza = new OBJModel_t("../../assets/crytek-sponza/sponza.obj", g_Device, g_DeviceContext);//////////////////////////////////////////////
+	sponza = new OBJModel_t("../../assets/crytek-sponza/sponza.obj", g_Device, g_DeviceContext);//////////////////////////////////////////////
+	skyMap = new OBJModel_t("../../assets/Skymap/SkyBox.obj", g_Device, g_DeviceContext);
+
+	//Load CubeMaptexture
+	str = "../../assets/cubemaps/desertcube1024.dds";
+	wstr = std::wstring(str.begin(), str.end());
+
+	// Load texture to device and obtain pointers to it
+	hr = DirectX::CreateDDSTextureFromFile(g_Device, g_DeviceContext, wstr.c_str(), &map_Cube_Tex, &map_Cube_TexSRV);
 }
 
 //
@@ -168,8 +184,8 @@ void updateObjects(float dt)
 
 	Mcube2 = mat4f::translation((lightPos.xyz()));
 
-	McubeMap = mat4f::translation(0, 0, 0) *
-		       mat4f::scaling(1000, 1000, 1000);
+	McubeMap = mat4f::translation(camera->position) *
+		mat4f::scaling(100, 100, 100);
 
 	// Increase the rotation angle. dt is the frame time step.
 	angle += angle_vel * dt;
@@ -180,21 +196,8 @@ void updateObjects(float dt)
 //
 void renderObjects()
 {
-	HRESULT hr;
-	std::wstring wstr; // for conversion from string to wstring
-	std::string str;
-	ID3D11ShaderResourceView*	map_Cube_TexSRV;
-	ID3D11Resource*				map_Cube_Tex;
+	
 
-	str = "sunsetcube1024.dds";
-	wstr = std::wstring(str.begin(), str.end());
-
-
-
-	///problem med cubebuffer och texturen fixa nästa gång
-	//// Load texture to device and obtain pointers to it
-	//hr = DirectX::CreateDDSTextureFromFile(g_Device, g_DeviceContext, map_Cube_Tex, map_Cube_TexSRV);
-	hr = DirectX::CreateDDSTextureFromFile(g_Device, g_DeviceContext, wstr.c_str(),&map_Cube_Tex, &map_Cube_TexSRV, 10, nullptr);
 	// Obtain the matrices needed for rendering from the camera
 	Mview = camera->get_WorldToViewMatrix();
 	Mproj = camera->get_ProjectionMatrix();
@@ -211,23 +214,26 @@ void renderObjects()
 	vec4f whiteDiff = { 1, 1, 1, 1 };
 
 	vec4f cameraPos =  camera->position.xyz1();
-	
-	cube->MapMatrixBuffers(g_MatrixBuffer, McubeMap, Mview, Mproj);
-	cube->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
-	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
-	cube->MapCubeMapBuffer(g_CubeMapBuffer, map_Cube_TexSRV, map_Cube_Tex);
-	cube->render();
 
+	//cubemapp
+	skyMap->MapMatrixBuffers(g_MatrixBuffer, McubeMap, Mview, Mproj);
+	skyMap->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
+	skyMap->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
+	skyMap->MapCubeMapBuffer(g_CubeMapBuffer, map_Cube_TexSRV, map_Cube_Tex, true);
+	skyMap->render();
+
+	//cube1
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube, Mview, Mproj);
 	cube->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
 	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
+	//cube->MapCubeMapBuffer(g_CubeMapBuffer, map_Cube_TexSRV, map_Cube_Tex, true);
 	cube->render();
 
-	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube1, Mview, Mproj);
+	/*cube->MapMatrixBuffers(g_MatrixBuffer, Mcube1, Mview, Mproj);
 	cube->MapPhongBuffer(g_PhongBuffer,blueAmb,blueDiff,blueSpec);
 	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
 	cube->render();
-
+*/
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube2, Mview, Mproj);
 	cube->MapPhongBuffer(g_PhongBuffer, whiteDiff, whiteDiff, blueSpec);
 	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
@@ -255,6 +261,7 @@ void releaseObjects()
 	SAFE_DELETE(quad);
 	SAFE_DELETE(cube);
 	SAFE_DELETE(sponza);
+	SAFE_DELETE(skyMap);
 	SAFE_DELETE(camera);
 }
 
@@ -499,6 +506,23 @@ HRESULT CreateShadersAndInputLayout()
 		MessageBoxA(nullptr, "Failed to create pixel shader (check Output window for more info)", 0, 0);
 	}
 
+	printf("\nCompiling pixel shader...\n\n");
+	ID3DBlob* pCubeShader = nullptr;
+	if (SUCCEEDED(hr = CompileShader("../../assets/shaders/CbMp.psh", "PS_main", "ps_5_0", nullptr, &pCubeShader)))
+	{
+		hr = g_Device->CreatePixelShader(
+			pCubeShader->GetBufferPointer(),
+			pCubeShader->GetBufferSize(),
+			nullptr,
+			&g_CubeMapShader);
+
+		SAFE_RELEASE(pCubeShader);
+	}
+	else
+	{
+		MessageBoxA(nullptr, "Failed to create pixel shader (check Output window for more info)", 0, 0);
+	}
+
 	return hr;
 }
 
@@ -710,6 +734,7 @@ HRESULT Render(float deltaTime)
 	g_DeviceContext->GSSetShader(nullptr, nullptr, 0);
 	g_DeviceContext->PSSetShader(g_PixelShader, nullptr, 0);
 
+
 	// set matrix buffers
 	g_DeviceContext->VSSetConstantBuffers(0, 1, &g_MatrixBuffer);
 
@@ -720,13 +745,55 @@ HRESULT Render(float deltaTime)
 	g_DeviceContext->PSSetConstantBuffers(1, 1, &g_LightBuffer);
 
 	//Set cubemapbuffer
-	g_DeviceContext->PSGetConstantBuffers(2, 1, &g_CubeMapBuffer);
+	g_DeviceContext->PSSetConstantBuffers(2, 1, &g_CubeMapBuffer);
 	
 	// time to render our objects
 	renderObjects();
 
 	//swap front and back buffer
 	return g_SwapChain->Present( 0, 0 );
+}
+
+HRESULT RenderSky(float deltaTime)
+{
+	//clear back buffer, black color
+	static float ClearColor[4] = { 0, 0, 0, 1 };
+	g_DeviceContext->ClearRenderTargetView(g_RenderTargetView, ClearColor);
+
+	//clear depth buffer
+	g_DeviceContext->ClearDepthStencilView(g_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+	//set topology
+	g_DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); /// D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
+
+	//set vertex description
+	g_DeviceContext->IASetInputLayout(g_InputLayout);
+
+	//set shaders
+	g_DeviceContext->VSSetShader(g_VertexShader, nullptr, 0);
+	g_DeviceContext->HSSetShader(nullptr, nullptr, 0);
+	g_DeviceContext->DSSetShader(nullptr, nullptr, 0);
+	g_DeviceContext->GSSetShader(nullptr, nullptr, 0);
+	g_DeviceContext->PSSetShader(g_PixelShader, nullptr, 0);
+
+
+	// set matrix buffers
+	g_DeviceContext->VSSetConstantBuffers(0, 1, &g_MatrixBuffer);
+
+	//set Phongbuffer
+	g_DeviceContext->PSSetConstantBuffers(0, 1, &g_PhongBuffer);
+
+	//Set lightBuffer
+	g_DeviceContext->PSSetConstantBuffers(1, 1, &g_LightBuffer);
+
+	//Set cubemapbuffer
+	g_DeviceContext->PSSetConstantBuffers(2, 1, &g_CubeMapBuffer);
+
+	// time to render our objects
+	renderObjects();
+
+	//swap front and back buffer
+	return g_SwapChain->Present(0, 0);
 }
 
 //--------------------------------------------------------------------------------------
@@ -839,6 +906,7 @@ void Release()
 	SAFE_RELEASE(g_InputLayout);
 	SAFE_RELEASE(g_VertexShader);
 	SAFE_RELEASE(g_PixelShader);
+	SAFE_RELEASE(g_CubeMapShader);
 
 	SAFE_RELEASE(g_VertexShader);
 	SAFE_RELEASE(g_DeviceContext);

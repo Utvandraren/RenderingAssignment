@@ -75,6 +75,7 @@
     <ClInclude Include="Cube.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shaders\DrawTri.psh">
@@ -83,5 +84,13 @@
     <None Include="..\assets\shaders\DrawTri.vsh">
       <Filter>shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="eduRend.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\assets\shaders\CbMp.psh">
+      <Filter>shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -331,6 +331,7 @@ OBJModel_t::~OBJModel_t()
 		SAFE_RELEASE(mtl.map_d_TexSRV);
 		SAFE_RELEASE(mtl.map_bump_Tex);
 		SAFE_RELEASE(mtl.map_bump_TexSRV);
+
 	}
 
 	SAFE_RELEASE(samplerState);
@@ -340,7 +341,6 @@ void OBJModel_t::render() const
 {
 	// Set topology
 	dxdevice_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
 	// Bind vertex buffer
 	UINT32 stride = sizeof(vertex_t);
 	UINT32 offset = 0;
