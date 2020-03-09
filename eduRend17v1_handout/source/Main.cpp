@@ -70,7 +70,7 @@ void				Release();
 camera_t* camera;
 float camera_vel = 10.0f;	// Camera movement velocity in units/s
 Quad_t* quad;
-Cube *cube;
+OBJModel_t *cube;
 OBJModel_t* skyMap;
 OBJModel_t* sponza;
 // Object model-to-world transformation matrices
@@ -107,13 +107,14 @@ void initObjects()
 
 	// Create objects
 	quad = new Quad_t(g_Device, g_DeviceContext);
-	cube = new Cube(g_Device, g_DeviceContext);
+	//cube = new Cube(g_Device, g_DeviceContext);
+	cube = new OBJModel_t("../../assets/sphere/sphere.obj", g_Device, g_DeviceContext);
 //	obj = new OBJModel_t("../../assets/tyre/Tyre.obj", g_Device, g_DeviceContext);
 	sponza = new OBJModel_t("../../assets/crytek-sponza/sponza.obj", g_Device, g_DeviceContext);//////////////////////////////////////////////
 	skyMap = new OBJModel_t("../../assets/Skymap/SkyBox.obj", g_Device, g_DeviceContext);
 
 	//Load CubeMaptexture
-	str = "../../assets/cubemaps/desertcube1024.dds";
+	str = "../../assets/cubemaps/snowcube1024.dds";
 	wstr = std::wstring(str.begin(), str.end());
 
 	// Load texture to device and obtain pointers to it
@@ -185,7 +186,7 @@ void updateObjects(float dt)
 	Mcube2 = mat4f::translation((lightPos.xyz()));
 
 	McubeMap = mat4f::translation(camera->position) *
-		mat4f::scaling(100, 100, 100);
+		mat4f::scaling(400, 400, 400);
 
 	// Increase the rotation angle. dt is the frame time step.
 	angle += angle_vel * dt;
@@ -215,18 +216,12 @@ void renderObjects()
 
 	vec4f cameraPos =  camera->position.xyz1();
 
-	//cubemapp
-	skyMap->MapMatrixBuffers(g_MatrixBuffer, McubeMap, Mview, Mproj);
-	skyMap->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
-	skyMap->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
-	skyMap->MapCubeMapBuffer(g_CubeMapBuffer, map_Cube_TexSRV, map_Cube_Tex, true);
-	skyMap->render();
 
 	//cube1
 	cube->MapMatrixBuffers(g_MatrixBuffer, Mcube, Mview, Mproj);
 	cube->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
 	cube->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
-	//cube->MapCubeMapBuffer(g_CubeMapBuffer, map_Cube_TexSRV, map_Cube_Tex, true);
+	cube->MapCubeMapBuffer(g_CubeMapBuffer, map_Cube_TexSRV, map_Cube_Tex, true);
 	cube->render();
 
 	/*cube->MapMatrixBuffers(g_MatrixBuffer, Mcube1, Mview, Mproj);
@@ -712,6 +707,32 @@ HRESULT Update(float deltaTime)
 	return S_OK;
 }
 
+void MapSky() 
+{
+	Mview = camera->get_WorldToViewMatrix();
+	Mproj = camera->get_ProjectionMatrix();
+
+	// Load matrices + the Quad's transformation to the device and render it
+	vec4f redAmb = { 0.0, 0.0, 0.0, 0.0 };
+	vec4f redDiff = { 1.0, 0.0, 0.0, 0.0 };
+	vec4f redSpec = { 1.0, 1.0, 1.0, 0.0 };
+
+	vec4f blueAmb = { 0.0, 0.0, 0.0, 0.0 };
+	vec4f blueDiff = { 0.0, 0.0, 1.0, 0.0 };
+	vec4f blueSpec = { 1.0, 1.0, 1.0, 1.0 };
+
+	vec4f whiteDiff = { 1, 1, 1, 1 };
+
+	vec4f cameraPos = camera->position.xyz1();
+
+	//cubemapp
+	skyMap->MapMatrixBuffers(g_MatrixBuffer, McubeMap, Mview, Mproj);
+	skyMap->MapPhongBuffer(g_PhongBuffer, redAmb, redDiff, redSpec);
+	skyMap->MapLightCameraBuffer(g_LightBuffer, lightPos, cameraPos);
+	skyMap->MapCubeMapBuffer(g_CubeMapBuffer, map_Cube_TexSRV, map_Cube_Tex, true);
+
+}
+
 HRESULT Render(float deltaTime)
 {
 	//clear back buffer, black color
@@ -726,14 +747,6 @@ HRESULT Render(float deltaTime)
 	
 	//set vertex description
 	g_DeviceContext->IASetInputLayout(g_InputLayout);
-	
-	//set shaders
-	g_DeviceContext->VSSetShader(g_VertexShader, nullptr, 0);
-	g_DeviceContext->HSSetShader(nullptr, nullptr, 0);
-	g_DeviceContext->DSSetShader(nullptr, nullptr, 0);
-	g_DeviceContext->GSSetShader(nullptr, nullptr, 0);
-	g_DeviceContext->PSSetShader(g_PixelShader, nullptr, 0);
-
 
 	// set matrix buffers
 	g_DeviceContext->VSSetConstantBuffers(0, 1, &g_MatrixBuffer);
@@ -746,6 +759,28 @@ HRESULT Render(float deltaTime)
 
 	//Set cubemapbuffer
 	g_DeviceContext->PSSetConstantBuffers(2, 1, &g_CubeMapBuffer);
+	
+	MapSky();
+
+	//setCubeMapShaders + render
+	g_DeviceContext->VSSetShader(g_VertexShader, nullptr, 0);
+	g_DeviceContext->HSSetShader(nullptr, nullptr, 0);
+	g_DeviceContext->DSSetShader(nullptr, nullptr, 0);
+	g_DeviceContext->GSSetShader(nullptr, nullptr, 0);
+	g_DeviceContext->PSSetShader(g_CubeMapShader, nullptr, 0);
+	skyMap->render();
+
+
+	//set shaders
+	g_DeviceContext->VSSetShader(g_VertexShader, nullptr, 0);
+	g_DeviceContext->HSSetShader(nullptr, nullptr, 0);
+	g_DeviceContext->DSSetShader(nullptr, nullptr, 0);
+	g_DeviceContext->GSSetShader(nullptr, nullptr, 0);
+	g_DeviceContext->PSSetShader(g_PixelShader, nullptr, 0);
+
+
+	
+	
 	
 	// time to render our objects
 	renderObjects();
@@ -754,47 +789,6 @@ HRESULT Render(float deltaTime)
 	return g_SwapChain->Present( 0, 0 );
 }
 
-HRESULT RenderSky(float deltaTime)
-{
-	//clear back buffer, black color
-	static float ClearColor[4] = { 0, 0, 0, 1 };
-	g_DeviceContext->ClearRenderTargetView(g_RenderTargetView, ClearColor);
-
-	//clear depth buffer
-	g_DeviceContext->ClearDepthStencilView(g_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
-	//set topology
-	g_DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); /// D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
-
-	//set vertex description
-	g_DeviceContext->IASetInputLayout(g_InputLayout);
-
-	//set shaders
-	g_DeviceContext->VSSetShader(g_VertexShader, nullptr, 0);
-	g_DeviceContext->HSSetShader(nullptr, nullptr, 0);
-	g_DeviceContext->DSSetShader(nullptr, nullptr, 0);
-	g_DeviceContext->GSSetShader(nullptr, nullptr, 0);
-	g_DeviceContext->PSSetShader(g_PixelShader, nullptr, 0);
-
-
-	// set matrix buffers
-	g_DeviceContext->VSSetConstantBuffers(0, 1, &g_MatrixBuffer);
-
-	//set Phongbuffer
-	g_DeviceContext->PSSetConstantBuffers(0, 1, &g_PhongBuffer);
-
-	//Set lightBuffer
-	g_DeviceContext->PSSetConstantBuffers(1, 1, &g_LightBuffer);
-
-	//Set cubemapbuffer
-	g_DeviceContext->PSSetConstantBuffers(2, 1, &g_CubeMapBuffer);
-
-	// time to render our objects
-	renderObjects();
-
-	//swap front and back buffer
-	return g_SwapChain->Present(0, 0);
-}
 
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message

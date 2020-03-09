@@ -212,7 +212,9 @@
     <ResourceCompile Include="eduRend.rc" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\assets\shaders\CbMp.psh" />
+    <FxCompile Include="..\assets\shaders\CbMp.psh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">True</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

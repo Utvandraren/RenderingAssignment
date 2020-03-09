@@ -94,6 +94,8 @@ void Geometry_t::MapPhongBuffer(
 	dxdevice_context->Unmap(phong_buffer, 0);
 }
 
+
+
 //Compute and assign TANGENT and BINORMAL for three triangle vertices
 void Geometry_t::compute_tangentspace(vertex_t& v0, vertex_t& v1, vertex_t& v2)
 {
@@ -367,4 +369,8 @@ void OBJModel_t::render() const
 		// Make the drawcall
 		dxdevice_context->DrawIndexed(irange.size, irange.start, 0);
 	}
+
+
 }
+
+
